@@ -83,6 +83,7 @@ public class TitlePage extends JFrame implements ActionListener{
 		b.addActionListener(this);
 		b.setFont(font);
 	}
+	//test
 
 	/**
 	 * This method detects user actions
