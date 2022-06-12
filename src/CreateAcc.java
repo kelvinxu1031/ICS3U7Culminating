@@ -52,6 +52,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 		asteroidsScores = in.readLine().split(" ");
 		runnerScores = in.readLine().split(" ");
 		numOfUsers = usernames.length;
+		System.out.println(numOfUsers);
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
