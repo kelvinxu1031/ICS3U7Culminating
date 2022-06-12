@@ -82,13 +82,13 @@ public class MainMenu extends JFrame implements ActionListener{
 			if(e.getSource() == exit) {
 				System.exit(0);
 			}
-			else if(e.getSource()==stats) {
+			if(e.getSource()==stats) {
 				mainMenuF.dispose();
 				new Stats("STATS");
 			}
-			else {
+			if(e.getSource() == play) {
 				mainMenuF.dispose();
-				new Stats("STATS");
+				new GameOption("PLAY");
 			}
 		}catch(Exception e1) {
 			System.out.println("ERROR!");
