@@ -49,7 +49,6 @@ public class MainMenu extends JFrame implements ActionListener{
 		exit.setBounds(375, 360,315, 60);
 
 		createButton(play);
-		createButton(stats);
 		createButton(leaderboard);
 		createButton(logout);
 		createButton(exit);
@@ -79,17 +78,14 @@ public class MainMenu extends JFrame implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		try {
-			if(e.getSource() == exit) {
-				System.exit(0);
-			}
-			if(e.getSource()==stats) {
-				mainMenuF.dispose();
-				new Stats("STATS");
-			}
 			if(e.getSource() == play) {
 				mainMenuF.dispose();
 				new GameOption("PLAY");
 			}
+			if(e.getSource() == exit) {
+				System.exit(0);
+			}
+			
 		}catch(Exception e1) {
 			System.out.println("ERROR!");
 		}

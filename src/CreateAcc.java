@@ -12,8 +12,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 
 	//file IO variables
 	private static String file = "accounts.txt";
-	private static String[][] accounts = new String[2][1000];
-	private static int[][] scores = new int[4][1000];
+	private static String[][] accounts = new String[6][1000];
 	private String[] usernames;
 	private String[] passwords;
 	private String[]          pacManScores;
@@ -52,14 +51,13 @@ public class CreateAcc extends JFrame implements ActionListener{
 		asteroidsScores = in.readLine().split(" ");
 		runnerScores = in.readLine().split(" ");
 		numOfUsers = usernames.length;
-		System.out.println(numOfUsers);
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
-			scores[0][i] = Integer.parseInt(pacManScores[i]);
-			scores[1][i] = Integer.parseInt(flappyBirdScores[i]);
-			scores[2][i] = Integer.parseInt(asteroidsScores[i]);
-			scores[3][i] = Integer.parseInt(runnerScores[i]);
+			accounts[2][i] = pacManScores[i];
+			accounts[3][i] = flappyBirdScores[i];
+			accounts[4][i] = asteroidsScores[i];
+			accounts[5][i] = runnerScores[i];
 		}
 
 		//instantiating components for GUI
@@ -133,10 +131,10 @@ public class CreateAcc extends JFrame implements ActionListener{
 	public void createUser(String username, String password) throws Exception{
 		accounts[0][numOfUsers] = username;
 		accounts[1][numOfUsers] = password;
-		scores[0][numOfUsers] = 1;
-		scores[1][numOfUsers] = 1;
-		scores[2][numOfUsers] = 1;
-		scores[3][numOfUsers] = 1;
+		accounts[2][numOfUsers] = "0";
+		accounts[3][numOfUsers] = "0";
+		accounts[4][numOfUsers] = "0";
+		accounts[5][numOfUsers] = "0";
 		numOfUsers++;
 		saveUsers();
 	}
@@ -145,36 +143,32 @@ public class CreateAcc extends JFrame implements ActionListener{
 	 * This method updates the accounts.txt file 
 	 * @throws Exception
 	 */
-	public void saveUsers() throws Exception{
+	public void saveUsers() throws IOException{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 		for(int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[0][i]);
-			out.write(" ");
+			out.write(accounts[0][i] + " ");
 		}
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++){
-			out.write(accounts[1][i]);
-			out.write(" ");
+			out.write(accounts[1][i] + " ");
+		}
+		out.newLine();
+		
+		for (int i = 0; i<numOfUsers;i++) {
+			System.out.println(accounts[2][i]);
+			out.write(accounts[2][i]+ " ");
 		}
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++) {
-			out.write(scores[0][i]);
-			out.write(" ");
+			out.write(accounts[3][i] + " ");
 		}
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++) {
-			out.write(scores[1][i]);
-			out.write(" ");
+			out.write(accounts[4][i] + " ");
 		}
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++) {
-			out.write(scores[2][i]);
-			out.write(" ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(scores[3][i]);
-			out.write(" ");
+			out.write(accounts[5][i] + " ");
 		}
 		out.close();//save .txt file
 	}

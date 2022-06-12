@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class GameOption extends JFrame implements ActionListener{
+public class GameOption extends JFrame{
 	private static JFrame gameOptionF;
 	private JPanel  backgroundP;
 	private JLabel  lblTitle;
@@ -44,11 +44,6 @@ public class GameOption extends JFrame implements ActionListener{
 		runner.setBounds(210,270,315,60);
 		back.setBounds(210,360,315,60);
 		
-		createButton(pacMan);
-		createButton(flappyBird);
-		createButton(asteroid);
-		createButton(runner);
-		createButton(back);
 		
 		backgroundP.add(lblTitle);
 		backgroundP.add(pacMan);
@@ -64,28 +59,6 @@ public class GameOption extends JFrame implements ActionListener{
 		gameOptionF.setVisible(true);
 	}
 	
-	public void createButton(JButton b) throws Exception{
-		//import fonts
-		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		ge.registerFont(font);
-		b.addActionListener(this);
-		b.setFont(font);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		try {
-			if(e.getSource()==back) {
-				gameOptionF.dispose();
-				new MainMenu("ARCADE");
-			}
-			else {
-				gameOptionF.dispose();
-				new Login("LOGIN");
-			}
-		}catch(Exception e1) {
-			System.out.println("ERROR!");
-		}
-
-	}
+	
 }

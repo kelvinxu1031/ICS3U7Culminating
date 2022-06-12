@@ -83,7 +83,7 @@ public class Stats extends JFrame implements ActionListener{
 		try {
 			if(e.getSource()==play) {
 				statsF.dispose();
-				new MainMenu("ARCADE");
+				new GameOption("PLAY");
 			}
 			if(e.getSource()==back){
 				statsF.dispose();
