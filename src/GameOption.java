@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class GameOption extends JFrame{
+public class GameOption extends JFrame implements ActionListener{
 	private static JFrame gameOptionF;
 	private JPanel  backgroundP;
 	private JLabel  lblTitle;
@@ -21,12 +21,12 @@ public class GameOption extends JFrame{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
 		ge.registerFont(textFont);
-		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
+		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(28f);
 		ge.registerFont(titleFont);
 		
 		gameOptionF = new JFrame(title);
 		backgroundP = new JPanel();
-		lblTitle = new JLabel("WELCOME TO THE ARCADE");
+		lblTitle = new JLabel("WELCOME TO THE ARCADE!!");
 		pacMan = new JButton("PAC_MAN");
 		flappyBird = new JButton("FLAPPY BIRD");
 		asteroid = new JButton("ASTEROIDS");
@@ -35,15 +35,21 @@ public class GameOption extends JFrame{
 		
 		gameOptionF.setLayout(null);
 		backgroundP.setLayout(null);
+		backgroundP.setSize(720,470);
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(50,50,620,50);
 		pacMan.setBounds(30,180,315,60);
-		flappyBird.setBounds(210,180,315,60);
+		flappyBird.setBounds(375,180,315,60);
 		asteroid.setBounds(30,270,315,60);
-		runner.setBounds(210,270,315,60);
+		runner.setBounds(375,270,315,60);
 		back.setBounds(210,360,315,60);
 		
+		createButton(pacMan);
+		createButton(flappyBird);
+		createButton(asteroid);
+		createButton(runner);
+		createButton(back);
 		
 		backgroundP.add(lblTitle);
 		backgroundP.add(pacMan);
@@ -59,6 +65,24 @@ public class GameOption extends JFrame{
 		gameOptionF.setVisible(true);
 	}
 	
-
+	public void createButton(JButton b) throws Exception{
+		//import fonts
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(12f);
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    ge.registerFont(font);
+		b.addActionListener(this);
+		b.setFont(font);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		try {
+		if(e.getSource() == back) {
+			gameOptionF.dispose();
+			new MainMenu("ARCADE");
+		}
+		}catch(Exception e1) {
+			System.out.println("error");
+		}
+	}
 	
 }

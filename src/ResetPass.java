@@ -6,9 +6,13 @@ import java.io.*;
 public class ResetPass extends JFrame implements ActionListener{
 
 	private static String file = "accounts.txt";
-	private static String[][] accounts = new String[2][1000];
+	private static String[][] accounts = new String[6][1000];
 	private String[] usernames;
 	private String[] passwords;
+	private String[]          pacManScores;
+	private String[]          flappyBirdScores;
+	private String[]          asteroidsScores;
+	private String[]          runnerScores;
 	private static int numOfUsers;
 	private String user, pass, confirmPass;
 	private static String message;
@@ -40,10 +44,18 @@ public class ResetPass extends JFrame implements ActionListener{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
+		pacManScores = in.readLine().split(" ");
+		flappyBirdScores = in.readLine().split(" ");
+		asteroidsScores = in.readLine().split(" ");
+		runnerScores = in.readLine().split(" ");
 		numOfUsers = usernames.length;
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
+			accounts[2][i] = pacManScores[i];
+			accounts[3][i] = flappyBirdScores[i];
+			accounts[4][i] = asteroidsScores[i];
+			accounts[5][i] = runnerScores[i];
 		}
 
 		//instantiating components for GUI
@@ -163,18 +175,33 @@ public class ResetPass extends JFrame implements ActionListener{
 	 * This method saves the "accounts.txt" file
 	 * @throws IOException
 	 */
-	public static void saveUsers() throws IOException{
+	public void saveUsers() throws IOException{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 		for(int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[0][i]);
-			out.write(" ");
+			out.write(accounts[0][i] + " ");
 		}
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++){
-			out.write(accounts[1][i]);
-			out.write(" ");
+			out.write(accounts[1][i] + " ");
 		}
-		out.close();
+		out.newLine();
+		
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[2][i]+ " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[3][i] + " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[4][i] + " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[5][i] + " ");
+		}
+		out.close();//save .txt file
 	}
 
 	/**

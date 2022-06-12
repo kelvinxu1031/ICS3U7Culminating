@@ -81,11 +81,11 @@ public class Stats extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		try {
-			if(e.getSource()==play) {
+			if(e.getSource() == play) {
 				statsF.dispose();
 				new GameOption("PLAY");
 			}
-			if(e.getSource()==back){
+			if(e.getSource() == back){
 				statsF.dispose();
 				new MainMenu("ARCADE");
 			}

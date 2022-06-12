@@ -129,12 +129,13 @@ public class CreateAcc extends JFrame implements ActionListener{
 	 * @throws Exception IOexception
 	 */
 	public void createUser(String username, String password) throws Exception{
+		String zero = "0";
 		accounts[0][numOfUsers] = username;
 		accounts[1][numOfUsers] = password;
-		accounts[2][numOfUsers] = "0";
-		accounts[3][numOfUsers] = "0";
-		accounts[4][numOfUsers] = "0";
-		accounts[5][numOfUsers] = "0";
+		accounts[2][numOfUsers] = zero;
+		accounts[3][numOfUsers] = zero;
+		accounts[4][numOfUsers] = zero;
+		accounts[5][numOfUsers] = zero;
 		numOfUsers++;
 		saveUsers();
 	}
@@ -155,7 +156,6 @@ public class CreateAcc extends JFrame implements ActionListener{
 		out.newLine();
 		
 		for (int i = 0; i<numOfUsers;i++) {
-			System.out.println(accounts[2][i]);
 			out.write(accounts[2][i]+ " ");
 		}
 		out.newLine();
