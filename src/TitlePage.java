@@ -97,8 +97,8 @@ public class TitlePage extends JFrame implements ActionListener{
 				titlePageF.dispose();
 				new Login("LOGIN");
 			}
-		}catch(Exception e1){
-			System.out.println("ERROR!");
+		}catch(Exception e1) {
+			System.out.println("why");
 		}
 	}
 

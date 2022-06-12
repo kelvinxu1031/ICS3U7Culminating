@@ -26,7 +26,7 @@ public class Login extends JFrame implements ActionListener{
 	private final static int  CAP = 1000;
 	private static String     file = "accounts.txt";
 	private static String[][] accounts = new String[2][CAP];
-	private static int[][]    scores = new int[2][CAP];
+	private static int[][]    scores = new int[4][CAP];
 	private String[]          usernames;
 	private String[]          passwords;
 	private String[]          pacManScores;
