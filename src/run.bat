@@ -4,6 +4,6 @@ javac CreateAcc.java
 javac MainMenu.java
 javac ResetPass.java
 javac TitlePage.java
-
+javac Stats.java
 pause
 java Main

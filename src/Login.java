@@ -26,11 +26,20 @@ public class Login extends JFrame implements ActionListener{
 	private final static int  CAP = 1000;
 	private static String     file = "accounts.txt";
 	private static String[][] accounts = new String[2][CAP];
+	private static int[][]    scores = new int[2][CAP];
 	private String[]          usernames;
 	private String[]          passwords;
+	private String[]          pacManScores;
+	private String[]          flappyBirdScores;
+	private String[]          asteroidsScores;
+	private String[]          runnerScores;
 	private static int        numOfUsers;
-	public static String      currUser;
-	public static String      currPass;
+	private static String     currUser;
+	private static String     currPass;
+	private static int        currPacManScore;
+	private static int        currFlappyBirdScore;
+	private static int        currAsteroidsScore;
+	private static int        currRunnerScore;
 	
 	//font files
 	String titleFontName = "fonts/titleFont.ttf";
@@ -46,10 +55,18 @@ public class Login extends JFrame implements ActionListener{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
+		pacManScores = in.readLine().split(" ");
+		flappyBirdScores = in.readLine().split(" ");
+		asteroidsScores = in.readLine().split(" ");
+		runnerScores = in.readLine().split(" ");
 		numOfUsers = usernames.length;
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
+			scores[0][i] = Integer.parseInt(pacManScores[i]);
+			scores[1][i] = Integer.parseInt(flappyBirdScores[i]);
+			scores[2][i] = Integer.parseInt(asteroidsScores[i]);
+			scores[3][i] = Integer.parseInt(runnerScores[i]);
 		}
 
 		//instantiating components for GUI
@@ -144,17 +161,59 @@ public class Login extends JFrame implements ActionListener{
 	public void setPass(String pass) {
 		currPass = pass;
 	}
+	
+	public static int getPacMan() {
+		return currPacManScore;
+	}
+	public void setPacMan(int score) {
+		currPacManScore = score;
+	}
 
+	public static int getFlappyBird() {
+		return currFlappyBirdScore;
+	}
+	public void setFlappyBird(int score) {
+		currFlappyBirdScore = score;
+	}
+	
+	public static int getAsteroids() {
+		return currAsteroidsScore;
+	}
+	public void setAsteroids(int score) {
+		currAsteroidsScore = score;
+	}
 
+	public static int getRunner() {
+		return currRunnerScore;
+	}
+	public void setRunner(int score) {
+		currRunnerScore = score;
+	}
+	
+	public int findIndex(String user) {
+		for (int i = 0; i<numOfUsers;i++) {
+			if(user.equals(accounts[0][i])) {
+				return i;
+			}
+		}
+		return 0;
+	}
 	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e){
+		int index;
 		try {
 			if (e.getSource() == enter) {
 				String user = uText.getText();
 				String pass = pText.getText();
+				
 				if(isUser(user,pass)) {
+					index = findIndex(user);
 					setUser(user);
 					setPass(pass);
+					setPacMan(scores[0][index]);
+					setFlappyBird(scores[1][index]);
+					setAsteroids(scores[2][index]);
+					setRunner(scores[3][index]);
 					JOptionPane.showMessageDialog(this, "Access Granted!");
 					loginF.dispose();
 					new MainMenu("WELCOME TO THE ARCADE");

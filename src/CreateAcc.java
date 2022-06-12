@@ -9,12 +9,17 @@ import java.io.*;
  * Date: June 7, 2022
  */
 public class CreateAcc extends JFrame implements ActionListener{
-	
+
 	//file IO variables
 	private static String file = "accounts.txt";
 	private static String[][] accounts = new String[2][1000];
+	private static int[][] scores = new int[4][1000];
 	private String[] usernames;
 	private String[] passwords;
+	private String[]          pacManScores;
+	private String[]          flappyBirdScores;
+	private String[]          asteroidsScores;
+	private String[]          runnerScores;
 	private static int numOfUsers;
 
 	private static JFrame  createAccF;
@@ -29,7 +34,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 
 	String titleFontName = "fonts/titleFont.ttf";
 	String textFontName  = "fonts/textFont.ttf";
-	
+
 	public CreateAcc(String title) throws Exception {
 		//import fonts
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -37,15 +42,23 @@ public class CreateAcc extends JFrame implements ActionListener{
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(30f);
 		ge.registerFont(textFont);
 		ge.registerFont(titleFont);
-		
+
 		//read input from "accounts.txt"
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
+		pacManScores = in.readLine().split(" ");
+		flappyBirdScores = in.readLine().split(" ");
+		asteroidsScores = in.readLine().split(" ");
+		runnerScores = in.readLine().split(" ");
 		numOfUsers = usernames.length;
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
+			scores[0][i] = Integer.parseInt(pacManScores[i]);
+			scores[1][i] = Integer.parseInt(flappyBirdScores[i]);
+			scores[2][i] = Integer.parseInt(asteroidsScores[i]);
+			scores[3][i] = Integer.parseInt(runnerScores[i]);
 		}
 
 		//instantiating components for GUI
@@ -74,7 +87,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 		pText.setBounds(200,250,470,25);
 		enter.setBounds(30,325,320,50);
 		back.setBounds(370,325,320,50);
-		
+
 		//add functionality to buttons
 		createButton(enter);
 		createButton(back);
@@ -119,10 +132,14 @@ public class CreateAcc extends JFrame implements ActionListener{
 	public void createUser(String username, String password) throws Exception{
 		accounts[0][numOfUsers] = username;
 		accounts[1][numOfUsers] = password;
+		scores[0][numOfUsers] = 1;
+		scores[1][numOfUsers] = 1;
+		scores[2][numOfUsers] = 1;
+		scores[3][numOfUsers] = 1;
 		numOfUsers++;
 		saveUsers();
 	}
-	
+
 	/**
 	 * This method updates the accounts.txt file 
 	 * @throws Exception
@@ -136,6 +153,26 @@ public class CreateAcc extends JFrame implements ActionListener{
 		out.newLine();
 		for (int i = 0; i<numOfUsers;i++){
 			out.write(accounts[1][i]);
+			out.write(" ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(scores[0][i]);
+			out.write(" ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(scores[1][i]);
+			out.write(" ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(scores[2][i]);
+			out.write(" ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(scores[3][i]);
 			out.write(" ");
 		}
 		out.close();//save .txt file
@@ -163,7 +200,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		try {
 			if (e.getSource() == enter) {//if user clicked enter button
-				
+
 				//get username and password entered
 				String user = uText.getText();
 				String pass = pText.getText();

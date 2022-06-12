@@ -13,17 +13,17 @@ public class MainMenu extends JFrame implements ActionListener{
 	private JButton logout;
 	private JButton exit;
 	private JLabel  lblUser;
-	
+
 	String titleFontName = "fonts/titleFont.ttf";
 	String textFontName  = "fonts/textFont.ttf";
-	
+
 	public MainMenu(String title) throws Exception{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
-	    ge.registerFont(textFont);
-	    Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
-	    ge.registerFont(titleFont);
-		
+		ge.registerFont(textFont);
+		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
+		ge.registerFont(titleFont);
+
 		mainMenuF = new JFrame(title);
 		backgroundP = new JPanel();
 		lblTitle = new JLabel("ARCADE");
@@ -33,7 +33,7 @@ public class MainMenu extends JFrame implements ActionListener{
 		leaderboard = new JButton("LEADERBOARD");
 		logout = new JButton("LOGOUT");
 		exit = new JButton("EXIT");
-		
+
 		mainMenuF.setLayout(null);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720, 470);
@@ -47,13 +47,13 @@ public class MainMenu extends JFrame implements ActionListener{
 		leaderboard.setBounds(375, 270, 315, 60);
 		logout.setBounds(30, 360, 315, 60);
 		exit.setBounds(375, 360,315, 60);
-		
+
 		createButton(play);
 		createButton(stats);
 		createButton(leaderboard);
 		createButton(logout);
 		createButton(exit);
-		
+
 		backgroundP.add(lblTitle);
 		backgroundP.add(lblUser);
 		backgroundP.add(play);
@@ -67,28 +67,32 @@ public class MainMenu extends JFrame implements ActionListener{
 		mainMenuF.setLocationRelativeTo(null);
 		mainMenuF.setVisible(true);
 	}
-	
+
 	public void createButton(JButton b) throws Exception{
 		//import fonts
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    ge.registerFont(font);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
 		b.addActionListener(this);
 		b.setFont(font);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == exit) {
-			System.exit(0);
-		}
-		else {
-			mainMenuF.dispose();
-			try {
-				new Login("LOGIN");
-			} catch (Exception e1) {
-				System.out.println("Error with file IO");
+		try {
+			if(e.getSource() == exit) {
+				System.exit(0);
 			}
+			else if(e.getSource()==stats) {
+				mainMenuF.dispose();
+				new Stats("STATS");
+			}
+			else {
+				mainMenuF.dispose();
+				new Stats("STATS");
+			}
+		}catch(Exception e1) {
+			System.out.println("ERROR!");
 		}
-		
+
 	}
 }
