@@ -31,7 +31,6 @@ public class TitlePage extends JFrame implements ActionListener{
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
 		ge.registerFont(titleFont);
-
 		//instantiation of GUI components
 		titlePageF = new JFrame(title);
 		img = new ImageIcon(imgName);
@@ -42,6 +41,7 @@ public class TitlePage extends JFrame implements ActionListener{
 		img = new ImageIcon(image2);
 		background = new JLabel(img);
 		lblTitle = new JLabel("ARCADE");
+		lblTitle.setForeground(Color.white);
 		login = new JButton("LOGIN");
 		exit = new JButton("EXIT");
 

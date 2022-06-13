@@ -197,6 +197,13 @@ public class Login extends JFrame implements ActionListener{
 		}
 		return 0;
 	}
+	
+	public static String[][] getAccounts(){
+		return accounts;
+	}
+	public static int getUsers() {
+		return numOfUsers;
+	}
 	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e){
 		int index;
@@ -234,7 +241,6 @@ public class Login extends JFrame implements ActionListener{
 				new CreateAcc("CREATE ACCOUNT");
 			}
 			if(e.getSource() == resetPass) {
-				System.out.println("resetpassbuttonclicked");
 				loginF.dispose();
 				new ResetPass("RESET PASSWORD");
 			}

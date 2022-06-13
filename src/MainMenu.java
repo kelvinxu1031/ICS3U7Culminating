@@ -16,14 +16,13 @@ public class MainMenu extends JFrame implements ActionListener{
 
 	String titleFontName = "fonts/titleFont.ttf";
 	String textFontName  = "fonts/textFont.ttf";
-
+	
 	public MainMenu(String title) throws Exception{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
 		ge.registerFont(titleFont);
-
 		mainMenuF = new JFrame(title);
 		backgroundP = new JPanel();
 		lblTitle = new JLabel("ARCADE");
@@ -93,6 +92,10 @@ public class MainMenu extends JFrame implements ActionListener{
 			else if(e.getSource()==stats) {
 				mainMenuF.dispose();
 				new Stats("STATS");
+			}
+			else if(e.getSource() == leaderboard) {
+				mainMenuF.dispose();
+				new Leaderboard("LEADERBOARD");
 			}
 			
 		}catch(Exception e1) {
