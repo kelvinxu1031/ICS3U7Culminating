@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Leaderboard extends JFrame{
+public class Leaderboard extends JFrame implements ActionListener{
 	private static JFrame     leaderboardF;
 	private JPanel            backgroundP;
 	private JButton           back;
@@ -93,7 +93,7 @@ public class Leaderboard extends JFrame{
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(titleFont);
 		lblTitle.setBounds(50,50,620,50);
-		lblPacMan.setBounds(0,100,165,50);
+		lblPacMan.setBounds(15,100,165,50);
 		lblFlappyBird.setBounds(190,100,165,50);
 		lblAsteroids.setBounds(365,100,165,50);
 		lblRunner.setBounds(540,100,165,50);
@@ -101,8 +101,11 @@ public class Leaderboard extends JFrame{
 		flappyBirdPane.setBounds(190,150,165,185);
 		asteroidsPane.setBounds(365,150, 165,185);
 		runnerPane.setBounds(540,150,165,185);
-		play.setBounds(30,360,320,50);
-		back.setBounds(370,360,320,50);
+		back.setBounds(30,360,320,50);
+		play.setBounds(370,360,320,50);
+		
+		createButton(play);
+		createButton(back);
 		
 		backgroundP.add(lblTitle);
 		backgroundP.add(lblPacMan);
@@ -122,6 +125,15 @@ public class Leaderboard extends JFrame{
 		leaderboardF.setVisible(true);
 	}
 	
+	public void createButton(JButton b) throws Exception{
+		//import fonts
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
+		b.addActionListener(this);
+		b.setFont(font);
+	}
+	
 	public void sort(String[][] arr){
 		int i, j;
 		String temp1, temp2;
@@ -137,6 +149,23 @@ public class Leaderboard extends JFrame{
 				}
 			}
 		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		try {
+			if (e.getSource()==back) {
+				leaderboardF.dispose();
+				new MainMenu("ARCADE");
+			}
+			else if(e.getSource()==play) {
+				leaderboardF.dispose();
+				new GameOption("PLAY");
+			}
+			
+		}catch(Exception e1) {
+			System.out.println("ERROR!");
+		}
+
 	}
 
 }

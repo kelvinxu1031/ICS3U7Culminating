@@ -9,6 +9,7 @@ public class Stats extends JFrame implements ActionListener{
 	private JButton           back;
 	private JButton           play;
 	private JLabel            lblStats;
+	private JLabel            lblUser;
 	private JLabel            lblPacMan;
 	private JLabel            lblFlappyBird;
 	private JLabel            lblAsteroids;
@@ -30,6 +31,7 @@ public class Stats extends JFrame implements ActionListener{
 		back = new JButton("BACK");
 		play = new JButton("PLAY NOW!");
 		lblStats = new JLabel("PERSONAL STATS");
+		lblUser = new JLabel("USER: " + Login.getUser());
 		lblPacMan = new JLabel("PAC MAN: " + Login.getPacMan());
 		lblFlappyBird = new JLabel("Flappy Bird: " + Login.getFlappyBird());
 		lblAsteroids = new JLabel("Asteroids: " + Login.getAsteroids());
@@ -38,15 +40,22 @@ public class Stats extends JFrame implements ActionListener{
 		statsF.setLayout(null);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
-		back.setBounds(30,325,320,50);
-		play.setBounds(370,325,320,50);
+		back.setBounds(30,375,320,50);
+		play.setBounds(370,375,320,50);
 		lblStats.setFont(titleFont);
 		lblStats.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStats.setBounds(50,50,620,50);
-		lblPacMan.setBounds(100,125,200,100);
-		lblFlappyBird.setBounds(420,125, 200,100);
-		lblAsteroids.setBounds(100,200,200,100);
-		lblRunner.setBounds(420,200,200,100);
+		lblUser.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUser.setBounds(50,150,620,50);
+		lblPacMan.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPacMan.setBounds(100,200,200,50);
+		lblFlappyBird.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFlappyBird.setBounds(420,200, 200,50);
+		lblAsteroids.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAsteroids.setBounds(100,300,200,50);
+		lblRunner.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRunner.setBounds(420,300,200,50);
+		lblUser.setFont(textFont);
 		lblPacMan.setFont(textFont);
 		lblFlappyBird.setFont(textFont);
 		lblAsteroids.setFont(textFont);
@@ -56,6 +65,7 @@ public class Stats extends JFrame implements ActionListener{
 		createButton(back);
 		
 		backgroundP.add(lblStats);
+		backgroundP.add(lblUser);
 		backgroundP.add(lblPacMan);
 		backgroundP.add(lblFlappyBird);
 		backgroundP.add(lblAsteroids);
