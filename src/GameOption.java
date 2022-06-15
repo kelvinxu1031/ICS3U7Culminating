@@ -84,6 +84,10 @@ public class GameOption extends JFrame implements ActionListener{
 			gameOptionF.dispose();
 			new PacManHowToPlay("PAC-MAN");
 		}
+		if(e.getSource()==runner) {
+			gameOptionF.dispose();
+			new AstronautGame();
+		}
 		}catch(Exception e1) {
 			System.out.println("error");
 		}

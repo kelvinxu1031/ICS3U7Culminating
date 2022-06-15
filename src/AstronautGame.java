@@ -14,8 +14,6 @@ public class AstronautGame  extends JFrame{
 		f.setSize(1920,1080);
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
-		f.getContentPane().setBackground(Color.CYAN);
-		f.setForeground(Color.CYAN);
 	}
 	public static void main (String[] args) throws Exception {
 		new AstronautGame();
@@ -38,7 +36,7 @@ class Player{
 	public Player(int x, int y) {
 		this.x = x;
 		this.y = y;
-		start = true;
+		start = false;
 		running = true;
 		dead = false;
 		falling = false;
@@ -59,8 +57,14 @@ class Player{
 	public void setStart(boolean b) {
 		start = b;
 	}
+	public boolean getStart() {
+		return start;
+	}
 	public void move() {
-		if(jumping) {
+		if(!start) {
+			
+		}
+		else if(jumping) {
 			y+=dy;
 		}
 		else {
@@ -104,6 +108,9 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		System.out.println(player.getJumping());
 	}
 	public void mouseClicked(MouseEvent e) {
+		if (!player.getStart()) {
+			player.setStart(true);
+		}
 		if(player.getJumping()) {
 			player.setJumping(false);
 			player.setRunning(true);
