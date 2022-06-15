@@ -10,9 +10,8 @@ public class AstronautGame  extends JFrame{
 	public AstronautGame() throws Exception {
 		f = new JFrame();
 		map = new Map();
-		Images.loadImages();
 		f.add(map);
-		f.setSize(720,470);
+		f.setSize(1920,1080);
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
 		f.getContentPane().setBackground(Color.CYAN);
@@ -26,12 +25,25 @@ public class AstronautGame  extends JFrame{
 class Player{
 	private int x;
 	private int y;
-	private boolean jumping = false;
-	private boolean dead = false;
-	private boolean running = false;
-	private boolean start = false;
+	private int dy = 10;
+	private int dx = 10;
+	private boolean jumping;
+	private boolean falling;
+	private boolean dead;
+	private boolean running;
+	private boolean start;
 	private int cnt = 0;
+	private Image img;
 	
+	public Player(int x, int y) {
+		this.x = x;
+		this.y = y;
+		start = true;
+		running = true;
+		dead = false;
+		falling = false;
+		jumping = false;
+	}
 	public void setJumping(boolean b) {
 		jumping = b;
 	}
@@ -45,35 +57,45 @@ class Player{
 		start = b;
 	}
 	public void move() {
-		x+=10;
+		x = x;
 		
 	}
 	public void myDraw(Graphics g){
-		if(cnt == 0) {
-			g.drawImage(Images.getRun()[0], 0, 0, null);
+		if(jumping) {
+			img = Images.getJump();
 		}
+		else if(running) {
+			if(cnt == 0) {
+				img = Images.getRun()[cnt];
+				cnt=1;
+			}
+			else {
+				img = Images.getRun()[cnt];
+				cnt=0;
+			}
+		}
+		g.drawImage(img, x, y, null);
 	}	
 }
-class Map extends JPanel implements KeyListener, ActionListener{
+class Map extends JPanel implements ActionListener{
 	private Player player;
 	private Timer timer;
 	public Map() throws Exception {
-		player = new Player();
+		player = new Player(100,210);
 		Images.loadImages();
 		Images.resize();
-		addKeyListener(this);
-		
+		timer = new Timer(100, this);
+		timer.start();
 		
 	}
-	public void keyPressed(KeyEvent e){
-		if(e.getKeyCode()==32) {
-			player.setJumping(true);
-			player.setRunning(false);
-		}
+	public void actionPerformed(ActionEvent e) {
+		player.move();
+		repaint();
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawLine(0, 300, 720, 300);
+		player.myDraw(g);
 		
 	}
 }
