@@ -47,6 +47,9 @@ class Player{
 	public void setJumping(boolean b) {
 		jumping = b;
 	}
+	public boolean getJumping() {
+		return jumping;
+	}
 	public void setRunning(boolean b) {
 		running = b;
 	}
@@ -57,7 +60,12 @@ class Player{
 		start = b;
 	}
 	public void move() {
-		x = x;
+		if(jumping) {
+			y+=dy;
+		}
+		else {
+			x+=dx;
+		}
 		
 	}
 	public void myDraw(Graphics g){
@@ -77,24 +85,43 @@ class Player{
 		g.drawImage(img, x, y, null);
 	}	
 }
-class Map extends JPanel implements ActionListener{
+class Map extends JPanel implements ActionListener, MouseListener{
 	private Player player;
 	private Timer timer;
 	public Map() throws Exception {
-		player = new Player(100,210);
+		player = new Player(50,410);
 		Images.loadImages();
 		Images.resize();
 		timer = new Timer(100, this);
 		timer.start();
+
+		this.addMouseListener(this);
 		
 	}
 	public void actionPerformed(ActionEvent e) {
 		player.move();
 		repaint();
+		System.out.println(player.getJumping());
 	}
+	public void mouseClicked(MouseEvent e) {
+		if(player.getJumping()) {
+			player.setJumping(false);
+			player.setRunning(true);
+		}
+		else {
+
+			player.setJumping(true);
+			player.setRunning(false);
+		}
+		repaint();
+	}
+	public void mousePressed( MouseEvent e ){   }
+	public void mouseReleased( MouseEvent e ){   }
+	public void mouseEntered( MouseEvent e ) {   }
+	public void mouseExited( MouseEvent e )  {   }
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawLine(0, 300, 720, 300);
+		g.drawLine(0, 500, 1920, 500);
 		player.myDraw(g);
 		
 	}
