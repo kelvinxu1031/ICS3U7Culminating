@@ -14,18 +14,18 @@ public class Stats extends JFrame implements ActionListener{
 	private JLabel            lblFlappyBird;
 	private JLabel            lblAsteroids;
 	private JLabel            lblRunner;
-	
+
 	//font files
 	String titleFontName = "fonts/titleFont.ttf";
 	String textFontName = "fonts/textFont.ttf";
-		
+
 	public Stats(String title) throws Exception{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
-	    ge.registerFont(textFont);
-	    Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(40f);
-	    ge.registerFont(titleFont);
-	    
+		ge.registerFont(textFont);
+		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(40f);
+		ge.registerFont(titleFont);
+
 		statsF = new JFrame(title);
 		backgroundP = new JPanel();
 		back = new JButton("BACK");
@@ -36,7 +36,7 @@ public class Stats extends JFrame implements ActionListener{
 		lblFlappyBird = new JLabel("Flappy Bird: " + Login.getFlappyBird());
 		lblAsteroids = new JLabel("Asteroids: " + Login.getAsteroids());
 		lblRunner = new JLabel("Runner Game: " + Login.getRunner());
-		
+
 		statsF.setLayout(null);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
@@ -60,10 +60,10 @@ public class Stats extends JFrame implements ActionListener{
 		lblFlappyBird.setFont(textFont);
 		lblAsteroids.setFont(textFont);
 		lblRunner.setFont(textFont);
-		
+
 		createButton(play);
 		createButton(back);
-		
+
 		backgroundP.add(lblStats);
 		backgroundP.add(lblUser);
 		backgroundP.add(lblPacMan);
@@ -73,22 +73,22 @@ public class Stats extends JFrame implements ActionListener{
 		backgroundP.add(back);
 		backgroundP.add(play);
 		statsF.add(backgroundP);
-		
+
 		statsF.setSize(720,470);
 		statsF.setLocationRelativeTo(null);
 		statsF.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		statsF.setVisible(true);
 	}
-	
+
 	public void createButton(JButton b) throws Exception{
 		//import fonts
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    ge.registerFont(font);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
 		b.addActionListener(this);
 		b.setFont(font);
 	}
-	
+
 	public void actionPerformed(ActionEvent e){
 		try {
 			if(e.getSource() == play) {

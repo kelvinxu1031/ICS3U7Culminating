@@ -34,7 +34,7 @@ public class TitlePage extends JFrame implements ActionListener{
 		//instantiation of GUI components
 		titlePageF = new JFrame(title);
 		img = new ImageIcon(imgName);
-		
+
 		//resize image
 		Image image = img.getImage();
 		Image image2 = image.getScaledInstance(720, 450, java.awt.Image.SCALE_SMOOTH);

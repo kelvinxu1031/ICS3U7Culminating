@@ -185,7 +185,7 @@ public class Login extends JFrame implements ActionListener{
 	public static String getRunner() {
 		return currRunnerScore;
 	}
-	public void setRunner(String score) {
+	public static void setRunner(String score) {
 		currRunnerScore = score;
 	}
 	
