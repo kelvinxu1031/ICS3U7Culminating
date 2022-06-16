@@ -1,8 +1,0 @@
-Welcome to Pac-Man!
-
-In this game you can control your character using the arrow keys.
-The goal of the game is to eat as many dots as you can inside of an 
-enclosed maze. You must simultaneously try to avoid being eaten by 
-a ghost, otherwise the game is over. 
-
-Good luck!

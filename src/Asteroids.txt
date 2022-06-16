@@ -1,9 +1,0 @@
-Welcome to Asteroids!
-
-The objective of the game is to shoot and destroy the asteroids and saucers.
-You will control a ship that can rotate left and right to shoot.
-You can gain more points as you destroy asteroids and saucers.
-Press space to play.
-Use the arrow keys to move the ship.
-
-Good luck!

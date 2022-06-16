@@ -1,0 +1,8 @@
+Welcome to Flappy Bird!
+
+Press the space bar to start the game.
+Tap the space bar to make the bird go higher.
+Stay in the middle of the pipes.
+If you hit the pipe or the ground, the game ends.
+
+Good luck!
