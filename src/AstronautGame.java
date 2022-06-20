@@ -6,7 +6,7 @@ import java.awt.image.*;
 import java.io.*;
 public class AstronautGame  extends JFrame{
 	private Map map;
-	private JFrame f;
+	private static JFrame f;
 	public AstronautGame() throws Exception {
 		f = new JFrame();
 		map = new Map();
@@ -14,6 +14,10 @@ public class AstronautGame  extends JFrame{
 		f.setSize(1920,1080);
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
+	}
+	
+	public static void disposeF() {
+		f.dispose();
 	}
 }
 
@@ -77,10 +81,10 @@ class Player{
 		else if(jumping) {
 
 			y-=dy;
-			dy-=15;
+			dy-=1;
 
-			if(y>=465) {
-				setY(465);
+			if(y>=444) {
+				setY(444);
 				jumping = false;
 				running = true;
 
@@ -88,12 +92,16 @@ class Player{
 		}
 
 	}
-	public void myDraw(Graphics g){
+	public void myDraw(Graphics g) throws Exception{
 		if(jumping) {
 			img = Images.getJump();
 		}
 		else if(dead) {
 			img = Images.getDead();
+			Thread.sleep(1000);
+			AstronautGame.disposeF();
+			new GameOver();
+			
 		}
 		else if(running) {
 			if(cnt == 0) {
@@ -115,14 +123,17 @@ class Map extends JPanel implements ActionListener, MouseListener{
 	private Player player;
 	private Timer timer;
 	private Timer obsTimer;
-	private Obstacle[] arr = new Obstacle[10];
+	private Obstacle[] arr;
 	private int cnt = 0;
 	private int formCnt = 0;
+	public boolean collide;
 	public Map() throws Exception {
-
+		arr = new Obstacle[10];
+		Obstacle.setCreateNew(true);
+		Obstacle.setDx(10);
 		score = 0;
 		tickCnt = 0;
-		player = new Player(50,465);
+		player = new Player(100,444);
 		Images.loadImages();
 
 
@@ -136,7 +147,6 @@ class Map extends JPanel implements ActionListener, MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == obsTimer && Obstacle.getCreateNew()) {
 			Obstacle obstacle = new Obstacle(2000, 440);
-			Obstacle.setDx(50);
 			arr[cnt%10] = obstacle;
 			cnt++;
 			if (cnt<10) {
@@ -145,7 +155,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		}
 		tickCnt++;
 		if(tickCnt%5==0 && !player.getDead()) {
-			score++;
+			score+=1423;
 		}
 		try {
 			detectCollision();
@@ -160,7 +170,8 @@ class Map extends JPanel implements ActionListener, MouseListener{
 	}
 	public void detectCollision() throws Exception {
 		for (int i = 0; i<formCnt;i++) {
-			if (new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(arr[i].getX(), arr[i].getY(),30, 30))) {
+			collide = (new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(arr[i].getX(), arr[i].getY(),30, 30)));
+			if (collide) {
 				player.setDead(true);
 				player.setRunning(false);
 				player.setJumping(false);
@@ -170,6 +181,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 				if (score>Integer.parseInt(Login.getRunner())) {
 					Login.setRunner(String.valueOf(score));
 				}
+				
 			}
 		}
 
@@ -180,7 +192,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		}
 		else if(e.getButton()==1) {
 			if (!player.getStart()) {
-				timer = new Timer(100, this);
+				timer = new Timer(5, this);
 				timer.start();
 				obsTimer = new Timer(2000, this);
 				obsTimer.start();
@@ -194,7 +206,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 			else {
 
 				player.setJumping(true);
-				player.setDy(50);
+				player.setDy(25);
 				player.setRunning(false);
 			}
 			repaint();
@@ -214,7 +226,11 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		}
 
 		g.drawLine(0, 500, 1920, 500);
-		player.myDraw(g);
+		try {
+			player.myDraw(g);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static int getScore() {
@@ -228,8 +244,7 @@ class Obstacle{
 	private int x;
 	private int y;
 	private static int dx;
-	private static boolean createNew = true;
-	private Image img;
+	private static boolean createNew;
 	public Obstacle(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -268,10 +283,12 @@ class Images{
 		img = ImageIO.read(new File("images/dinosaurSprite.png"));
 		cactusImg = ImageIO.read(new File(strcactus));
 		cactus = cactusImg;
-		run1 = img.getSubimage(106, 0, 35, 33);
-		run2 = img.getSubimage(71, 0, 35, 33);
-		jump = img.getSubimage(0, 0, 35, 33);
-		dead = img.getSubimage(142, 0, 35, 33);
+		System.out.println(img.getWidth());
+		run1 = img.getSubimage(170, 0, 57, 56);
+		run2 = img.getSubimage(113, 0, 57, 56);
+		jump = img.getSubimage(0, 0, 57, 56);
+		dead = img.getSubimage(285, 0, 56, 56);
+
 		run[0]=run1;
 		run[1]=run2;
 	}

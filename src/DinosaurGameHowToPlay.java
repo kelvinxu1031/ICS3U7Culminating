@@ -87,7 +87,7 @@ public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
 				new AstronautGame();
 			}
 		}catch(Exception e1) {
-			System.out.println("ERROR");
+			System.out.println(e1.getMessage());
 		}
 	}
 }
