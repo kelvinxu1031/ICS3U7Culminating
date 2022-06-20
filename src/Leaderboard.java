@@ -17,7 +17,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 	private JTable            leaderboardAsteroids;
 	private JLabel            lblRunner;
 	private JTable            leaderboardRunner;
-	private String[][]        accounts = Login.getAccounts();
+	private String[][]        accounts;
 	private String[][]        pacManScores = new String[10][2];
 	private String[][]        flappyBirdScores = new String[10][2];
 	private String[][]        asteroidsScores = new String[10][2];
@@ -40,6 +40,8 @@ public class Leaderboard extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		//initialize 2D arrays and sort them in ascending order;
+		Login.init();
+		accounts = Login.getAccounts();
 		for(int i = 0; i<10;i++) {
 			if(accounts[0][i]==null) {
 				pacManScores[i][0] = "";

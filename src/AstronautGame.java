@@ -81,7 +81,7 @@ class Player{
 		else if(jumping) {
 
 			y-=dy;
-			dy-=1;
+			dy-=3;
 
 			if(y>=444) {
 				setY(444);
@@ -98,9 +98,6 @@ class Player{
 		}
 		else if(dead) {
 			img = Images.getDead();
-			Thread.sleep(1000);
-			AstronautGame.disposeF();
-			new GameOver();
 			
 		}
 		else if(running) {
@@ -130,7 +127,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 	public Map() throws Exception {
 		arr = new Obstacle[10];
 		Obstacle.setCreateNew(true);
-		Obstacle.setDx(10);
+		Obstacle.setDx(50);
 		score = 0;
 		tickCnt = 0;
 		player = new Player(100,444);
@@ -155,7 +152,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		}
 		tickCnt++;
 		if(tickCnt%5==0 && !player.getDead()) {
-			score+=1423;
+			score+=1;
 		}
 		try {
 			detectCollision();
@@ -176,10 +173,10 @@ class Map extends JPanel implements ActionListener, MouseListener{
 				player.setRunning(false);
 				player.setJumping(false);
 				player.setStart(false);
-				Obstacle.setCreateNew(false);
-				Obstacle.setDx(0);
 				if (score>Integer.parseInt(Login.getRunner())) {
+					Login.init();
 					Login.setRunner(String.valueOf(score));
+					Login.saveUsers();
 				}
 				
 			}
@@ -192,7 +189,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		}
 		else if(e.getButton()==1) {
 			if (!player.getStart()) {
-				timer = new Timer(5, this);
+				timer = new Timer(50, this);
 				timer.start();
 				obsTimer = new Timer(2000, this);
 				obsTimer.start();
@@ -206,7 +203,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 			else {
 
 				player.setJumping(true);
-				player.setDy(25);
+				player.setDy(30);
 				player.setRunning(false);
 			}
 			repaint();
@@ -217,6 +214,7 @@ class Map extends JPanel implements ActionListener, MouseListener{
 	public void mouseReleased( MouseEvent e ){   }
 	public void mouseEntered( MouseEvent e ) {   }
 	public void mouseExited( MouseEvent e )  {   }
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		updateLabel();
@@ -230,6 +228,16 @@ class Map extends JPanel implements ActionListener, MouseListener{
 			player.myDraw(g);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(player.getDead()) {
+
+			try {
+				Thread.sleep(1000);
+				AstronautGame.disposeF();
+				new GameOver();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -288,7 +296,6 @@ class Images{
 		run2 = img.getSubimage(113, 0, 57, 56);
 		jump = img.getSubimage(0, 0, 57, 56);
 		dead = img.getSubimage(285, 0, 56, 56);
-
 		run[0]=run1;
 		run[1]=run2;
 	}

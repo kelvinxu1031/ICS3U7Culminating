@@ -156,53 +156,9 @@ public class ResetPass extends JFrame implements ActionListener{
 	}
 
 
-	/**
-	 * This method updates the password for a given username
-	 * @param username entered by the user
-	 * @param password entered by the user
-	 * @throws IOException 
-	 */
-	public void updateInfo(String username, String password) throws IOException {
-		for (int i = 0; i<numOfUsers;i++) {
-			if(username.equals(accounts[0][i])) {
-				accounts[1][i] = password;
-			}
-		}
-		saveUsers();
-	}
 
-	/**
-	 * This method saves the "accounts.txt" file
-	 * @throws IOException
-	 */
-	public void saveUsers() throws IOException{
-		BufferedWriter out = new BufferedWriter(new FileWriter(file));
-		for(int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[0][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++){
-			out.write(accounts[1][i] + " ");
-		}
-		out.newLine();
-		
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[2][i]+ " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[3][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[4][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[5][i] + " ");
-		}
-		out.close();//save .txt file
-	}
+
+	
 
 	/**
 	 * This method detects user actions
@@ -234,13 +190,13 @@ public class ResetPass extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(this, "Error: Password and confirm password are different");
 				}
 				else {
-					updateInfo(user, pass);
+					Login.updateInfo(user, pass);
 					resetPassF.dispose();
 					new Login("LOGIN");
 				}
 			}
 			else {
-				saveUsers();
+				Login.saveUsers();
 				resetPassF.dispose();
 				new Login("LOGIN");
 			}

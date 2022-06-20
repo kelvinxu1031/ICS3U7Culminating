@@ -26,12 +26,13 @@ public class Login extends JFrame implements ActionListener{
 	private final static int  CAP = 1000;
 	private static String     file = "accounts.txt";
 	private static String[][] accounts = new String[6][CAP];
-	private String[]          usernames;
-	private String[]          passwords;
-	private String[]          pacManScores;
-	private String[]          flappyBirdScores;
-	private String[]          asteroidsScores;
-	private String[]          runnerScores;
+	private static String[]   usernames;
+	private static String[]          passwords;
+	private static String[]          pacManScores;
+	private static String[]          flappyBirdScores;
+	private static String[]          asteroidsScores;
+	private static String[]          runnerScores;
+	private static int currI;
 	private static int        numOfUsers;
 	private static String     currUser;
 	private static String     currPass;
@@ -119,9 +120,97 @@ public class Login extends JFrame implements ActionListener{
 		in.close();
 	}
 
+	public static void init() throws Exception {
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		usernames = in.readLine().split(" ");
+		passwords = in.readLine().split(" ");
+		pacManScores = in.readLine().split(" ");
+		flappyBirdScores = in.readLine().split(" ");
+		asteroidsScores = in.readLine().split(" ");
+		runnerScores = in.readLine().split(" ");
+		numOfUsers = usernames.length;
+		for (int i = 0; i<numOfUsers;i++) {
+			accounts[0][i] = usernames[i];
+			accounts[1][i] = passwords[i];
+			accounts[2][i] = pacManScores[i];
+			accounts[3][i] = flappyBirdScores[i];
+			accounts[4][i] = asteroidsScores[i];
+			accounts[5][i] = runnerScores[i];
+		}
+		in.close();
+	}
+	
+	/**
+	 * This method adds a user to the accounts array and updates the text file
+	 * @param username of the user
+	 * @param password of the user
+	 * @throws Exception IOexception
+	 */
+	public static void createUser(String username, String password) throws Exception{
+		String zero = "0";
+		accounts[0][numOfUsers] = username;
+		accounts[1][numOfUsers] = password;
+		accounts[2][numOfUsers] = zero;
+		accounts[3][numOfUsers] = zero;
+		accounts[4][numOfUsers] = zero;
+		accounts[5][numOfUsers] = zero;
+		numOfUsers++;
+		Login.saveUsers();
+	}
+	
+	/**
+	 * This method updates the accounts.txt file 
+	 * @throws Exception
+	 */
+	public static void saveUsers() throws IOException{
+		System.out.println(Login.getRunner());
+		BufferedWriter out = new BufferedWriter(new FileWriter(file));
+		for(int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[0][i] + " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++){
+			out.write(accounts[1][i] + " ");
+		}
+		out.newLine();
+
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[2][i]+ " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[3][i] + " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[4][i] + " ");
+		}
+		out.newLine();
+		for (int i = 0; i<numOfUsers;i++) {
+			out.write(accounts[5][i] + " ");
+		}
+		out.close();//save .txt file
+	}
+	
+	/**
+	 * This method updates the password for a given username
+	 * @param username entered by the user
+	 * @param password entered by the user
+	 * @throws IOException 
+	 */
+	public static void updateInfo(String username, String password) throws IOException {
+		for (int i = 0; i<numOfUsers;i++) {
+			if(username.equals(accounts[0][i])) {
+				accounts[1][i] = password;
+			}
+		}
+		Login.saveUsers();
+	}
+	
 	public boolean isUser(String user, String pass) {
 		for (int i = 0; i<numOfUsers;i++) {
 			if (accounts[0][i].equals(user.trim()) && accounts[1][i].equals(pass.trim())) {
+				Login.setI(i);
 				return true;
 			}
 		}
@@ -146,6 +235,12 @@ public class Login extends JFrame implements ActionListener{
 		return false;
 	}
 
+	public static int getI() {
+		return currI;
+	}
+	public static void setI(int i) {
+		currI = i;
+	}
 	public static String getUser() {
 		return currUser;
 	}
@@ -187,6 +282,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 	public static void setRunner(String score) {
 		currRunnerScore = score;
+		accounts[5][Login.getI()] = score;
 	}
 	
 	public int findIndex(String user) {

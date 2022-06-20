@@ -11,16 +11,6 @@ import java.io.*;
 public class CreateAcc extends JFrame implements ActionListener{
 
 	//file IO variables
-	private static String file = "accounts.txt";
-	private static String[][] accounts = new String[6][1000];
-	private String[] usernames;
-	private String[] passwords;
-	private String[]          pacManScores;
-	private String[]          flappyBirdScores;
-	private String[]          asteroidsScores;
-	private String[]          runnerScores;
-	private static int numOfUsers;
-
 	private static JFrame  createAccF;
 	private JPanel         backgroundP;
 	private JLabel         lblTitle;
@@ -43,22 +33,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		//read input from "accounts.txt"
-		BufferedReader in = new BufferedReader(new FileReader(file));
-		usernames = in.readLine().split(" ");
-		passwords = in.readLine().split(" ");
-		pacManScores = in.readLine().split(" ");
-		flappyBirdScores = in.readLine().split(" ");
-		asteroidsScores = in.readLine().split(" ");
-		runnerScores = in.readLine().split(" ");
-		numOfUsers = usernames.length;
-		for (int i = 0; i<numOfUsers;i++) {
-			accounts[0][i] = usernames[i];
-			accounts[1][i] = passwords[i];
-			accounts[2][i] = pacManScores[i];
-			accounts[3][i] = flappyBirdScores[i];
-			accounts[4][i] = asteroidsScores[i];
-			accounts[5][i] = runnerScores[i];
-		}
+		Login.init();
 
 		//instantiating components for GUI
 		createAccF  = new JFrame(title);
@@ -103,7 +78,6 @@ public class CreateAcc extends JFrame implements ActionListener{
 		createAccF.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createAccF.setLocationRelativeTo(null);
 		createAccF.setVisible(true);
-		in.close();
 	}
 
 
@@ -122,56 +96,11 @@ public class CreateAcc extends JFrame implements ActionListener{
 		b.setFont(font);
 	}
 
-	/**
-	 * This method adds a user to the accounts array and updates the text file
-	 * @param username of the user
-	 * @param password of the user
-	 * @throws Exception IOexception
-	 */
-	public void createUser(String username, String password) throws Exception{
-		String zero = "0";
-		accounts[0][numOfUsers] = username;
-		accounts[1][numOfUsers] = password;
-		accounts[2][numOfUsers] = zero;
-		accounts[3][numOfUsers] = zero;
-		accounts[4][numOfUsers] = zero;
-		accounts[5][numOfUsers] = zero;
-		numOfUsers++;
-		saveUsers();
-	}
+	
+	
+	
 
-	/**
-	 * This method updates the accounts.txt file 
-	 * @throws Exception
-	 */
-	public void saveUsers() throws IOException{
-		BufferedWriter out = new BufferedWriter(new FileWriter(file));
-		for(int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[0][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++){
-			out.write(accounts[1][i] + " ");
-		}
-		out.newLine();
-
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[2][i]+ " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[3][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[4][i] + " ");
-		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[5][i] + " ");
-		}
-		out.close();//save .txt file
-	}
+	
 
 	/**
 	 * This method returns whether an account has been registered with this username
@@ -180,8 +109,8 @@ public class CreateAcc extends JFrame implements ActionListener{
 	 * @throws Exception IOException
 	 */
 	public boolean isRegistered(String username) throws Exception{
-		for(int i = 0; i<numOfUsers;i++) {
-			if (accounts[0][i].equals(username)) {
+		for(int i = 0; i<Login.getUsers();i++) {
+			if (Login.getAccounts()[0][i].equals(username)) {
 				return true;
 			}
 		}
@@ -211,7 +140,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(this, "Error: An account with this username already exists.");
 				}
 				else {
-					createUser(user, pass);
+					Login.createUser(user, pass);
 					createAccF.dispose();
 					new Login("LOGIN");
 				}
