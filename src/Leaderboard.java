@@ -4,10 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Leaderboard extends JFrame implements ActionListener{
-
-	public static void main (String[] args) throws Exception {
-		new Leaderboard("GAMES");
-	}
 	private static JFrame     leaderboardF;
 	private JPanel            backgroundP;
 	private JButton           back;
