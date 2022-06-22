@@ -15,7 +15,7 @@ public class AstronautGame  extends JFrame{
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
-	
+
 	public static void disposeF() {
 		f.dispose();
 	}
@@ -98,7 +98,7 @@ class Player{
 		}
 		else if(dead) {
 			img = Images.getDead();
-			
+
 		}
 		else if(running) {
 			if(cnt == 0) {
@@ -113,7 +113,7 @@ class Player{
 		g.drawImage(img, x, y, null);
 	}	
 }
-class Map extends JPanel implements ActionListener, MouseListener{
+class Map extends JPanel implements ActionListener{
 	private static int score;
 	private JLabel lblScore;
 	private int tickCnt;
@@ -134,11 +134,18 @@ class Map extends JPanel implements ActionListener, MouseListener{
 		Images.loadImages();
 
 
-		this.addMouseListener(this);
-
+		addKeyListener(new MyRunnerKeyListener());
+		setFocusable(true);
 		lblScore = new JLabel("Score: " + score);
 		lblScore.setBounds(0, 0, 100, 25);
 		this.add(lblScore);
+
+		timer = new Timer(50, (ActionListener) this);
+		timer.start();
+		obsTimer = new Timer(2000, (ActionListener) this);
+		obsTimer.start();
+		player.setStart(true);
+		player.setRunning(true);
 
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -178,43 +185,33 @@ class Map extends JPanel implements ActionListener, MouseListener{
 					Login.setRunner(String.valueOf(score));
 					Login.saveUsers();
 				}
-				
+
 			}
 		}
 
 	}
-	public void mouseClicked(MouseEvent e) {
-		if(player.getJumping() || player.getDead()) {
+	class MyRunnerKeyListener extends KeyAdapter{//class to determine key events
+		public void keyPressed(KeyEvent e) {
+			if(player.getJumping() || player.getDead()) {
 
+			}
+			else if(e.getKeyChar() == ' ') {//space
+				if(player.getJumping()) {
+					player.setJumping(false);
+					player.setRunning(true);
+				}
+				else {
+
+					player.setJumping(true);
+					player.setDy(30);
+					player.setRunning(false);
+				}
+				repaint();
+			}
 		}
-		else if(e.getButton()==1) {
-			if (!player.getStart()) {
-				timer = new Timer(50, this);
-				timer.start();
-				obsTimer = new Timer(2000, this);
-				obsTimer.start();
-				player.setStart(true);
-				player.setRunning(true);
-			}
-			if(player.getJumping()) {
-				player.setJumping(false);
-				player.setRunning(true);
-			}
-			else {
-
-				player.setJumping(true);
-				player.setDy(30);
-				player.setRunning(false);
-			}
-			repaint();
-		}
-
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
 	}
-	public void mousePressed( MouseEvent e ){   }
-	public void mouseReleased( MouseEvent e ){   }
-	public void mouseEntered( MouseEvent e ) {   }
-	public void mouseExited( MouseEvent e )  {   }
-	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		updateLabel();

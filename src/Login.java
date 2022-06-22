@@ -163,7 +163,6 @@ public class Login extends JFrame implements ActionListener{
 	 * @throws Exception
 	 */
 	public static void saveUsers() throws IOException{
-		System.out.println(Login.getRunner());
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 		for(int i = 0; i<numOfUsers;i++) {
 			out.write(accounts[0][i] + " ");
@@ -211,6 +210,12 @@ public class Login extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			if (accounts[0][i].equals(user.trim()) && accounts[1][i].equals(pass.trim())) {
 				Login.setI(i);
+				Login.setUser(accounts[0][Login.getI()]);
+				Login.setPass(accounts[1][Login.getI()]);
+				Login.setPacMan(accounts[2][Login.getI()]);
+				Login.setFlappyBird(accounts[3][Login.getI()]);
+				Login.setAsteroids(accounts[4][Login.getI()]);
+				Login.setRunner(accounts[5][Login.getI()]);
 				return true;
 			}
 		}
@@ -245,36 +250,37 @@ public class Login extends JFrame implements ActionListener{
 		return currUser;
 	}
 
-	public void setUser(String user) {
+	public static void setUser(String user) {
 		currUser = user;
 	}
 	public static String getPass() {
 		return currPass;
 	}
 
-	public void setPass(String pass) {
+	public static void setPass(String pass) {
 		currPass = pass;
 	}
 	
 	public static String getPacMan() {
 		return currPacManScore;
 	}
-	public void setPacMan(String score) {
+	public static void setPacMan(String score) {
 		currPacManScore = score;
 	}
 
 	public static String getFlappyBird() {
 		return currFlappyBirdScore;
 	}
-	public void setFlappyBird(String score) {
+	public static void setFlappyBird(String score) {
 		currFlappyBirdScore = score;
 	}
 	
 	public static String getAsteroids() {
 		return currAsteroidsScore;
 	}
-	public void setAsteroids(String score) {
+	public static void setAsteroids(String score) {
 		currAsteroidsScore = score;
+		accounts[4][Login.getI()] = score;
 	}
 
 	public static String getRunner() {
