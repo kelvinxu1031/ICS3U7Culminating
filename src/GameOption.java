@@ -7,7 +7,6 @@ public class GameOption extends JFrame implements ActionListener{
 	private static JFrame gameOptionF;
 	private JPanel  backgroundP;
 	private JLabel  lblTitle;
-	private JButton pacMan;
 	private JButton flappyBird;
 	private JButton asteroid;
 	private JButton runner;
@@ -27,7 +26,6 @@ public class GameOption extends JFrame implements ActionListener{
 		gameOptionF = new JFrame(title);
 		backgroundP = new JPanel();
 		lblTitle = new JLabel("WELCOME TO THE ARCADE!!");
-		pacMan = new JButton("PAC_MAN");
 		flappyBird = new JButton("FLAPPY BIRD");
 		asteroid = new JButton("ASTEROIDS");
 		runner = new JButton("ASTRONAUT GAME");
@@ -39,20 +37,17 @@ public class GameOption extends JFrame implements ActionListener{
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(50,50,620,50);
-		pacMan.setBounds(30,180,315,60);
-		flappyBird.setBounds(375,180,315,60);
+		flappyBird.setBounds(210,180,315,60);
 		asteroid.setBounds(30,270,315,60);
 		runner.setBounds(375,270,315,60);
 		back.setBounds(210,360,315,60);
 
-		createButton(pacMan);
 		createButton(flappyBird);
 		createButton(asteroid);
 		createButton(runner);
 		createButton(back);
 
 		backgroundP.add(lblTitle);
-		backgroundP.add(pacMan);
 		backgroundP.add(flappyBird);
 		backgroundP.add(asteroid);
 		backgroundP.add(runner);
@@ -79,10 +74,6 @@ public class GameOption extends JFrame implements ActionListener{
 			if(e.getSource() == back) {
 				gameOptionF.dispose();
 				new MainMenu("ARCADE");
-			}
-			if(e.getSource()==pacMan) {
-				gameOptionF.dispose();
-				new PacManHowToPlay("PAC-MAN");
 			}
 			if(e.getSource()==flappyBird) {
 				gameOptionF.dispose();

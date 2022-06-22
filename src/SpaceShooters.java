@@ -175,6 +175,9 @@ public class SpaceShooters extends JFrame{
 				else if(tickCnt<10000) {//second speed level
 					Obstacle.setDx(-5);
 				}
+				else if(tickCnt<15000) {//third speed level
+					Obstacle.setDx(-8);
+				}
 				cnt++;//increment cnt
 				if(formCnt!=10) {//keep formCnt under 10
 					formCnt++;
@@ -188,7 +191,7 @@ public class SpaceShooters extends JFrame{
 		 */
 		public void detectCollision() throws Exception {
 			for(int i = 0; i<formCnt;i++) {//go through obstacle array to check each rocket individually
-				if (new Rectangle(player.getX(), player.getY(), 52, 70).intersects(new Rectangle(arr[i].getX(), arr[i].getY(), 46, 20))) {
+				if (new Rectangle(player.getX()+5, player.getY()+5, 42, 60).intersects(new Rectangle(arr[i].getX()+5, arr[i].getY()+5, 36, 10))) {
 					player.setDead(true);
 					if (score>Integer.parseInt(Login.getAsteroids())) {//update user's personal score
 						Login.init();

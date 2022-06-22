@@ -9,7 +9,6 @@ public class ResetPass extends JFrame implements ActionListener{
 	private static String[][] accounts = new String[6][1000];
 	private String[] usernames;
 	private String[] passwords;
-	private String[]          pacManScores;
 	private String[]          flappyBirdScores;
 	private String[]          asteroidsScores;
 	private String[]          runnerScores;
@@ -44,7 +43,6 @@ public class ResetPass extends JFrame implements ActionListener{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
-		pacManScores = in.readLine().split(" ");
 		flappyBirdScores = in.readLine().split(" ");
 		asteroidsScores = in.readLine().split(" ");
 		runnerScores = in.readLine().split(" ");
@@ -52,10 +50,9 @@ public class ResetPass extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
-			accounts[2][i] = pacManScores[i];
-			accounts[3][i] = flappyBirdScores[i];
-			accounts[4][i] = asteroidsScores[i];
-			accounts[5][i] = runnerScores[i];
+			accounts[2][i] = flappyBirdScores[i];
+			accounts[3][i] = asteroidsScores[i];
+			accounts[4][i] = runnerScores[i];
 		}
 
 		//instantiating components for GUI

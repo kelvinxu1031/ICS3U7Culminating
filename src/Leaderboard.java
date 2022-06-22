@@ -4,13 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Leaderboard extends JFrame implements ActionListener{
+
+	public static void main (String[] args) throws Exception {
+		new Leaderboard("GAMES");
+	}
 	private static JFrame     leaderboardF;
 	private JPanel            backgroundP;
 	private JButton           back;
 	private JButton           play;
 	private JLabel            lblTitle;
-	private JLabel            lblPacMan;
-	private JTable            leaderboardPacMan;
 	private JLabel            lblFlappyBird;
 	private JTable            leaderboardFlappyBird;
 	private JLabel            lblAsteroids;
@@ -18,12 +20,10 @@ public class Leaderboard extends JFrame implements ActionListener{
 	private JLabel            lblRunner;
 	private JTable            leaderboardRunner;
 	private String[][]        accounts;
-	private String[][]        pacManScores = new String[10][2];
 	private String[][]        flappyBirdScores = new String[10][2];
 	private String[][]        asteroidsScores = new String[10][2];
 	private String[][]        runnerScores = new String[10][2];
 	private String[]          colNames = {"USERNAME", "SCORE"};
-	private JScrollPane       pacManPane;
 	private JScrollPane       flappyBirdPane;
 	private JScrollPane       asteroidsPane;
 	private JScrollPane       runnerPane;
@@ -44,8 +44,6 @@ public class Leaderboard extends JFrame implements ActionListener{
 		accounts = Login.getAccounts();
 		for(int i = 0; i<10;i++) {
 			if(accounts[0][i]==null) {
-				pacManScores[i][0] = "";
-				pacManScores[i][1] = "0";
 				flappyBirdScores[i][0] = "";
 				flappyBirdScores[i][1] = "0";
 				asteroidsScores[i][0] = "";
@@ -54,19 +52,16 @@ public class Leaderboard extends JFrame implements ActionListener{
 				runnerScores[i][1] = "0";
 			}
 			else{
-				pacManScores[i][0] = accounts[0][i];
-				pacManScores[i][1] = accounts[2][i];
 				flappyBirdScores[i][0] = accounts[0][i];
-				flappyBirdScores[i][1] = accounts[3][i];
+				flappyBirdScores[i][1] = accounts[2][i];
 				asteroidsScores[i][0] = accounts[0][i];
-				asteroidsScores[i][1] = accounts[4][i];
+				asteroidsScores[i][1] = accounts[3][i];
 				runnerScores[i][0] = accounts[0][i];
-				runnerScores[i][1] = accounts[5][i];
+				runnerScores[i][1] = accounts[4][i];
 			}
 			
 			
 		}
-		sort(pacManScores);
 		sort(flappyBirdScores);
 		sort(asteroidsScores);
 		sort(runnerScores);
@@ -76,15 +71,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 		back = new JButton("BACK");
 		play = new JButton("PLAY");
 		lblTitle = new JLabel("LEADERBOARDS");
-		lblPacMan = new JLabel("PAC-MAN", SwingConstants.CENTER);
 		lblFlappyBird = new JLabel("FLAPPY BIRD", SwingConstants.CENTER);
 		lblAsteroids = new JLabel("ASTEROIDS", SwingConstants.CENTER);
 		lblRunner = new JLabel("ASTRONAUT GAME", SwingConstants.CENTER);
-		leaderboardPacMan  = new JTable(pacManScores, colNames);
 		leaderboardFlappyBird  = new JTable(flappyBirdScores, colNames);
 		leaderboardAsteroids  = new JTable(asteroidsScores, colNames);
 		leaderboardRunner  = new JTable(runnerScores, colNames);
-		pacManPane = new JScrollPane(leaderboardPacMan);
 		flappyBirdPane = new JScrollPane(leaderboardFlappyBird);
 		asteroidsPane = new JScrollPane(leaderboardAsteroids);
 		runnerPane = new JScrollPane(leaderboardRunner);
@@ -95,14 +87,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(titleFont);
 		lblTitle.setBounds(50,50,620,50);
-		lblPacMan.setBounds(15,100,165,50);
-		lblFlappyBird.setBounds(190,100,165,50);
-		lblAsteroids.setBounds(365,100,165,50);
-		lblRunner.setBounds(540,100,165,50);
-		pacManPane.setBounds(15, 150, 165, 185);
-		flappyBirdPane.setBounds(190,150,165,185);
-		asteroidsPane.setBounds(365,150, 165,185);
-		runnerPane.setBounds(540,150,165,185);
+		lblFlappyBird.setBounds(45,100,165,50);
+		lblAsteroids.setBounds(255,100,165,50);
+		lblRunner.setBounds(465,100,165,50);
+		flappyBirdPane.setBounds(45,150,165,185);
+		asteroidsPane.setBounds(255,150, 165,185);
+		runnerPane.setBounds(465,150,165,185);
 		back.setBounds(30,360,320,50);
 		play.setBounds(370,360,320,50);
 		
@@ -110,11 +100,9 @@ public class Leaderboard extends JFrame implements ActionListener{
 		createButton(back);
 		
 		backgroundP.add(lblTitle);
-		backgroundP.add(lblPacMan);
 		backgroundP.add(lblFlappyBird);
 		backgroundP.add(lblAsteroids);
 		backgroundP.add(lblRunner);
-		backgroundP.add(pacManPane);
 		backgroundP.add(flappyBirdPane);
 		backgroundP.add(asteroidsPane);
 		backgroundP.add(runnerPane);

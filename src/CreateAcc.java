@@ -153,7 +153,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 				new Login("LOGIN");
 			} 
 		}catch (Exception e1) {
-			System.out.println("Error with file IO");
+			System.out.println(e1.getLocalizedMessage());
 		}
 	}
 

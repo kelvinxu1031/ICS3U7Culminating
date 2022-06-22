@@ -25,10 +25,9 @@ public class Login extends JFrame implements ActionListener{
 	//file IO variables
 	private final static int  CAP = 1000;
 	private static String     file = "accounts.txt";
-	private static String[][] accounts = new String[6][CAP];
+	private static String[][] accounts = new String[5][CAP];
 	private static String[]   usernames;
 	private static String[]          passwords;
-	private static String[]          pacManScores;
 	private static String[]          flappyBirdScores;
 	private static String[]          asteroidsScores;
 	private static String[]          runnerScores;
@@ -36,7 +35,6 @@ public class Login extends JFrame implements ActionListener{
 	private static int        numOfUsers;
 	private static String     currUser;
 	private static String     currPass;
-	private static String     currPacManScore;
 	private static String     currFlappyBirdScore;
 	private static String     currAsteroidsScore;
 	private static String     currRunnerScore;
@@ -55,7 +53,6 @@ public class Login extends JFrame implements ActionListener{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
-		pacManScores = in.readLine().split(" ");
 		flappyBirdScores = in.readLine().split(" ");
 		asteroidsScores = in.readLine().split(" ");
 		runnerScores = in.readLine().split(" ");
@@ -63,10 +60,9 @@ public class Login extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
-			accounts[2][i] = pacManScores[i];
-			accounts[3][i] = flappyBirdScores[i];
-			accounts[4][i] = asteroidsScores[i];
-			accounts[5][i] = runnerScores[i];
+			accounts[2][i] = flappyBirdScores[i];
+			accounts[3][i] = asteroidsScores[i];
+			accounts[4][i] = runnerScores[i];
 		}
 
 		//instantiating components for GUI
@@ -124,7 +120,6 @@ public class Login extends JFrame implements ActionListener{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
 		passwords = in.readLine().split(" ");
-		pacManScores = in.readLine().split(" ");
 		flappyBirdScores = in.readLine().split(" ");
 		asteroidsScores = in.readLine().split(" ");
 		runnerScores = in.readLine().split(" ");
@@ -132,10 +127,9 @@ public class Login extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			accounts[0][i] = usernames[i];
 			accounts[1][i] = passwords[i];
-			accounts[2][i] = pacManScores[i];
-			accounts[3][i] = flappyBirdScores[i];
-			accounts[4][i] = asteroidsScores[i];
-			accounts[5][i] = runnerScores[i];
+			accounts[2][i] = flappyBirdScores[i];
+			accounts[3][i] = asteroidsScores[i];
+			accounts[4][i] = runnerScores[i];
 		}
 		in.close();
 	}
@@ -153,7 +147,6 @@ public class Login extends JFrame implements ActionListener{
 		accounts[2][numOfUsers] = zero;
 		accounts[3][numOfUsers] = zero;
 		accounts[4][numOfUsers] = zero;
-		accounts[5][numOfUsers] = zero;
 		numOfUsers++;
 		Login.saveUsers();
 	}
@@ -184,10 +177,6 @@ public class Login extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			out.write(accounts[4][i] + " ");
 		}
-		out.newLine();
-		for (int i = 0; i<numOfUsers;i++) {
-			out.write(accounts[5][i] + " ");
-		}
 		out.close();//save .txt file
 	}
 	
@@ -212,10 +201,9 @@ public class Login extends JFrame implements ActionListener{
 				Login.setI(i);
 				Login.setUser(accounts[0][Login.getI()]);
 				Login.setPass(accounts[1][Login.getI()]);
-				Login.setPacMan(accounts[2][Login.getI()]);
-				Login.setFlappyBird(accounts[3][Login.getI()]);
-				Login.setAsteroids(accounts[4][Login.getI()]);
-				Login.setRunner(accounts[5][Login.getI()]);
+				Login.setFlappyBird(accounts[2][Login.getI()]);
+				Login.setAsteroids(accounts[3][Login.getI()]);
+				Login.setRunner(accounts[4][Login.getI()]);
 				return true;
 			}
 		}
@@ -260,13 +248,6 @@ public class Login extends JFrame implements ActionListener{
 	public static void setPass(String pass) {
 		currPass = pass;
 	}
-	
-	public static String getPacMan() {
-		return currPacManScore;
-	}
-	public static void setPacMan(String score) {
-		currPacManScore = score;
-	}
 
 	public static String getFlappyBird() {
 		return currFlappyBirdScore;
@@ -288,7 +269,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 	public static void setRunner(String score) {
 		currRunnerScore = score;
-		accounts[5][Login.getI()] = score;
+		accounts[4][Login.getI()] = score;
 	}
 	
 	public int findIndex(String user) {
@@ -318,10 +299,10 @@ public class Login extends JFrame implements ActionListener{
 					index = findIndex(user);
 					setUser(user);
 					setPass(pass);
-					setPacMan(accounts[2][index]);
-					setFlappyBird(accounts[3][index]);
-					setAsteroids(accounts[4][index]);
-					setRunner(accounts[5][index]);
+					setFlappyBird(accounts[2][index]);
+					setAsteroids(accounts[3][index]);
+					setRunner(accounts[4][index]);
+					System.out.println(currAsteroidsScore);
 					JOptionPane.showMessageDialog(this, "Access Granted!");
 					loginF.dispose();
 					new MainMenu("WELCOME TO THE ARCADE");
@@ -348,7 +329,7 @@ public class Login extends JFrame implements ActionListener{
 			}
 		}
 		catch (Exception e1) {
-			System.out.println("Error with file io!");
+			System.out.println(e1.getLocalizedMessage());
 		}
 	}
 

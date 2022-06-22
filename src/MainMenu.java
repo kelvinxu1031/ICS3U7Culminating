@@ -99,7 +99,7 @@ public class MainMenu extends JFrame implements ActionListener{
 			}
 			
 		}catch(Exception e1) {
-			System.out.println("ERROR!");
+			System.out.println(e1.getLocalizedMessage());
 		}
 
 	}
