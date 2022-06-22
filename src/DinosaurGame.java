@@ -4,14 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-public class AstronautGame  extends JFrame{
+public class DinosaurGame  extends JFrame{
 	private Map map;
 	private static JFrame f;
-	public AstronautGame() throws Exception {
+	public DinosaurGame() throws Exception {
 		f = new JFrame();
 		map = new Map();
 		f.add(map);
-		f.setSize(1920,1080);
+		f.setSize(1000,720);
+		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
@@ -81,10 +82,10 @@ class Player{
 		else if(jumping) {
 
 			y-=dy;
-			dy-=3;
+			dy-=5;
 
-			if(y>=444) {
-				setY(444);
+			if(y>=494) {
+				setY(494);
 				jumping = false;
 				running = true;
 
@@ -130,7 +131,7 @@ class Map extends JPanel implements ActionListener{
 		Obstacle.setDx(50);
 		score = 0;
 		tickCnt = 0;
-		player = new Player(100,444);
+		player = new Player(100,494);
 		Images.loadImages();
 
 
@@ -150,7 +151,7 @@ class Map extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == obsTimer && Obstacle.getCreateNew()) {
-			Obstacle obstacle = new Obstacle(2000, 440);
+			Obstacle obstacle = new Obstacle(2000, 500);
 			arr[cnt%10] = obstacle;
 			cnt++;
 			if (cnt<10) {
@@ -164,7 +165,7 @@ class Map extends JPanel implements ActionListener{
 		try {
 			detectCollision();
 		} catch (Exception e1) {
-			System.out.println("Error!");;
+			System.out.println(e1.getLocalizedMessage());
 		}
 		player.move();
 		for (int i = 0; i<formCnt;i++) {
@@ -214,13 +215,13 @@ class Map extends JPanel implements ActionListener{
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.drawImage(Images.getBackground(), 0, 0, null);
 		updateLabel();
 		lblScore.repaint();
 		for (int i = 0; i<formCnt;i++) {
 			arr[i].drawCactus(g);
 		}
 
-		g.drawLine(0, 500, 1920, 500);
 		try {
 			player.myDraw(g);
 		} catch (Exception e) {
@@ -230,7 +231,7 @@ class Map extends JPanel implements ActionListener{
 
 			try {
 				Thread.sleep(1000);
-				AstronautGame.disposeF();
+				DinosaurGame.disposeF();
 				new GameOver();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -280,21 +281,27 @@ class Obstacle{
 	}
 }
 class Images{
-	private static BufferedImage img, cactusImg;
-	private static Image run1, run2, jump, cactus, dead;
+	private static BufferedImage img, cactusImg, cactusImg2, cactusImg3, backgroundImg;
+	private static Image run1, run2, jump, cactus, cactus2, cactus3, dead, background;
 	private static Image[] run = new Image[2];
 	private static String strcactus = "images/cactus.png";
 	public static void loadImages() throws Exception {
 		img = ImageIO.read(new File("images/dinosaurSprite.png"));
+		backgroundImg = ImageIO.read(new File("images/dinosaurBackground.jpg"));
+		cactusImg2 = ImageIO.read(new File("images/cactus2.png"));
+		cactusImg3 = ImageIO.read(new File("images/cactus3.png"));
+		background = backgroundImg;
 		cactusImg = ImageIO.read(new File(strcactus));
 		cactus = cactusImg;
-		System.out.println(img.getWidth());
-		run1 = img.getSubimage(170, 0, 57, 56);
-		run2 = img.getSubimage(113, 0, 57, 56);
-		jump = img.getSubimage(0, 0, 57, 56);
+		run1 = img.getSubimage(172, 0, 55, 56);
+		run2 = img.getSubimage(114, 0, 55, 56);
+		jump = img.getSubimage(0, 0, 55, 56);
 		dead = img.getSubimage(285, 0, 56, 56);
 		run[0]=run1;
 		run[1]=run2;
+	}
+	public static Image getBackground() {
+		return background;
 	}
 	public static Image getJump() {
 		return jump;

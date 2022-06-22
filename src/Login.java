@@ -302,7 +302,6 @@ public class Login extends JFrame implements ActionListener{
 					setFlappyBird(accounts[2][index]);
 					setAsteroids(accounts[3][index]);
 					setRunner(accounts[4][index]);
-					System.out.println(currAsteroidsScore);
 					JOptionPane.showMessageDialog(this, "Access Granted!");
 					loginF.dispose();
 					new MainMenu("WELCOME TO THE ARCADE");

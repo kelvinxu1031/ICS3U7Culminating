@@ -33,7 +33,7 @@ public class Stats extends JFrame implements ActionListener{
 		lblUser = new JLabel("USER: " + Login.getUser());
 		lblFlappyBird = new JLabel("Flappy Bird: " + Login.getFlappyBird());
 		lblAsteroids = new JLabel("Asteroids: " + Login.getAsteroids());
-		lblRunner = new JLabel("Runner Game: " + Login.getRunner());
+		lblRunner = new JLabel("Dinosaur Game: " + Login.getRunner());
 
 		statsF.setLayout(null);
 		backgroundP.setLayout(null);

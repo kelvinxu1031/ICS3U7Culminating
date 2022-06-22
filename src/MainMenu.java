@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 public class MainMenu extends JFrame implements ActionListener{
 	private static JFrame mainMenuF;
-	private JPanel  backgroundP;
+	private JLabel  backgroundP;
 	private JLabel  lblTitle;
 	private JButton play;
 	private JButton stats;
@@ -24,7 +24,7 @@ public class MainMenu extends JFrame implements ActionListener{
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
 		ge.registerFont(titleFont);
 		mainMenuF = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/mainMenuBackground.jpg"));
 		lblTitle = new JLabel("ARCADE");
 		lblUser = new JLabel("User: " + Login.getUser());
 		play = new JButton("PLAY");
@@ -39,8 +39,10 @@ public class MainMenu extends JFrame implements ActionListener{
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(50, 50, 620, 50);
+		lblTitle.setForeground(Color.white);
 		lblUser.setBounds(600,0,100,50);
 		lblUser.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUser.setForeground(Color.white);
 		play.setBounds(210,180,300,60);
 		stats.setBounds(30,270,315,60);
 		leaderboard.setBounds(375, 270, 315, 60);

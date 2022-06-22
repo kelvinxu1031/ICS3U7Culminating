@@ -27,8 +27,8 @@ public class GameOption extends JFrame implements ActionListener{
 		backgroundP = new JPanel();
 		lblTitle = new JLabel("WELCOME TO THE ARCADE!!");
 		flappyBird = new JButton("FLAPPY BIRD");
-		asteroid = new JButton("ASTEROIDS");
-		runner = new JButton("ASTRONAUT GAME");
+		asteroid = new JButton("SPACE SHOOTERS");
+		runner = new JButton("DINOSAUR GAME");
 		back = new JButton("BACK");
 
 		gameOptionF.setLayout(null);
@@ -85,7 +85,7 @@ public class GameOption extends JFrame implements ActionListener{
 			}
 			if(e.getSource()==asteroid) {
 				gameOptionF.dispose();
-				new AsteroidsHowToPlay("ASTEROIDS");
+				new AsteroidsHowToPlay("SPACE SHOOTERS");
 			}
 		}catch(Exception e1) {
 			System.out.println("error");

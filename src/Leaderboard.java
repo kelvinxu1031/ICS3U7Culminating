@@ -69,7 +69,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 		lblTitle = new JLabel("LEADERBOARDS");
 		lblFlappyBird = new JLabel("FLAPPY BIRD", SwingConstants.CENTER);
 		lblAsteroids = new JLabel("ASTEROIDS", SwingConstants.CENTER);
-		lblRunner = new JLabel("ASTRONAUT GAME", SwingConstants.CENTER);
+		lblRunner = new JLabel("DINOSAUR GAME", SwingConstants.CENTER);
 		leaderboardFlappyBird  = new JTable(flappyBirdScores, colNames);
 		leaderboardAsteroids  = new JTable(asteroidsScores, colNames);
 		leaderboardRunner  = new JTable(runnerScores, colNames);

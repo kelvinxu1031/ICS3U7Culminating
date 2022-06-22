@@ -9,9 +9,6 @@ import java.io.*;
  * This program contains the space shooters game.
  */
 public class SpaceShooters extends JFrame{
-	public static void main (String[] args) throws Exception {
-		new SpaceShooters();
-	}
 	private static JFrame f;
 	private Map map;
 	/**
@@ -118,12 +115,17 @@ public class SpaceShooters extends JFrame{
 	}
 	//map class: JPanel containing the content of the game (interaction between player and obstacles)
 	class Map extends JPanel implements ActionListener{
+		private int difficulty;
 		private Player player;//player object
 		private static int score; // score
 		private Timer obsTimer; //timer to track how often obstacles should be spawned
 		private Timer playerTimer;//timer to track movement of player and obstacles
-		private Obstacle[] arr;//array containing obstacles
-		private int tickCnt, cnt, formCnt;//counters to keep track of progress in the game
+		private Obstacle[] arr, arr2, arr3;//array containing obstacles
+		private int tickCnt, cnt, cnt2, cnt3, formCnt, formCnt2, formCnt3;//counters to keep track of progress in the game
+		private static boolean paused;
+		private JLabel lblPause = new JLabel("PAUSED");
+		private JLabel lblScore = new JLabel("SCORE: 0");
+		
 		/**
 		 * Constructor for Map class
 		 */
@@ -133,7 +135,9 @@ public class SpaceShooters extends JFrame{
 			//instantiate player
 			player = new Player(20,350);
 			score = 0;// initialize score to 0
-			arr = new Obstacle[10];//initialize Obstacle array
+			arr = new Obstacle[20];//initialize Obstacle array
+			arr2 = new Obstacle[20];
+			arr3 = new Obstacle[20];
 			addKeyListener(new MyKeyListener());//add key listener to allow user to control the spaceship
 			setFocusable(true);
 			obsTimer = new Timer(800, this); //spawn obstacle every 0.8 seconds(800 ms)
@@ -145,45 +149,88 @@ public class SpaceShooters extends JFrame{
 			tickCnt = 0;
 			cnt = 0;
 			formCnt = 0;
+			//initialize difficulty to easy(0)
+			difficulty = 0;
+			paused = false;
 		}
 		/**
 		 * Method to track user input actions
 		 */
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==playerTimer) {//if player timer goes off
-				player.move();//update player location
+			if(!paused) {
+				if(e.getSource()==playerTimer) {//if player timer goes off
+					player.move();//update player location
 
-				for(int i = 0; i<formCnt;i++) {//update all obstacles
-					arr[i].move();
+					for(int i = 0; i<formCnt;i++) {//update all obstacles
+						arr[i].move();
+					}
+					if (difficulty >= 1) {
+
+						for(int i = 0; i<formCnt2;i++) {//update all obstacles
+							arr2[i].move();
+						}
+					}
+					if(difficulty >= 2) {
+						for(int i = 0; i<formCnt3;i++) {//update all obstacles
+							arr3[i].move();
+						}
+					}
+					tickCnt++;//increment tick count
+					if(tickCnt%25==0) {
+						score++;//update score every 50 ticks
+					}
+					try {
+						detectCollision();//test to see if user crashed into a missile
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
-				tickCnt++;//increment tick count
-				if(tickCnt%50==0) {
-					score++;//update score every 50 ticks
+				
+				if(e.getSource()==obsTimer) {//if obstacle timer goes off
+					arr[cnt%20] = new Obstacle(1300, Obstacle.genInt());//spawn new obstacle at random y-coordinate
+					cnt++;//increment cnt
+					if(formCnt!=20) {//keep formCnt under 10
+						formCnt++;
+					}
+					if(difficulty>=1) {
+						arr2[cnt2%20] = new Obstacle(1400, Obstacle.genInt());
+						cnt2++;
+						if(formCnt2!=20) {
+							formCnt2++;
+						}
+					}
+					if(difficulty>=2) {
+						arr3[cnt3%20] = new Obstacle(1500, Obstacle.genInt());
+						cnt3++;
+						if(formCnt3!=20) {
+							formCnt3++;
+						}
+					}
+					if(tickCnt==10000) {
+						formCnt2 = 0;
+						cnt2 = 0;
+					}
+					if(tickCnt==15000) {
+						formCnt3 = 0;
+						cnt3 = 0;
+					}
+					if(tickCnt<2500) {//first speed level
+						Obstacle.setDx(-2);
+					}
+					else if(tickCnt<5000) {//second speed level
+						difficulty = 1;
+						Obstacle.setDx(-5);
+					}
+					else if(tickCnt<7500) {//third speed level
+						difficulty = 2;
+						Obstacle.setDx(-8);
+					}
+					
 				}
-				try {
-					detectCollision();//test to see if user crashed into a missile
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-			if(e.getSource()==obsTimer) {//if obstacle timer goes off
-				arr[cnt%10] = new Obstacle(1200, Obstacle.genInt());//spawn new obstacle at random y-coordinate
-				if(tickCnt<5000) {//first speed level
-					Obstacle.setDx(-2);
-				}
-				else if(tickCnt<10000) {//second speed level
-					Obstacle.setDx(-5);
-				}
-				else if(tickCnt<15000) {//third speed level
-					Obstacle.setDx(-8);
-				}
-				cnt++;//increment cnt
-				if(formCnt!=10) {//keep formCnt under 10
-					formCnt++;
-				}
+				
 			}
 			repaint();//update screen
+			
 		}
 
 		/**
@@ -193,6 +240,32 @@ public class SpaceShooters extends JFrame{
 			for(int i = 0; i<formCnt;i++) {//go through obstacle array to check each rocket individually
 				if (new Rectangle(player.getX()+5, player.getY()+5, 42, 60).intersects(new Rectangle(arr[i].getX()+5, arr[i].getY()+5, 36, 10))) {
 					player.setDead(true);
+					playerTimer.stop();
+					obsTimer.stop();
+					if (score>Integer.parseInt(Login.getAsteroids())) {//update user's personal score
+						Login.init();
+						Login.setAsteroids(String.valueOf(score));
+						Login.saveUsers();
+					}
+				}
+			}
+			for(int i = 0; i<formCnt2;i++) {//go through obstacle array to check each rocket individually
+				if (new Rectangle(player.getX()+5, player.getY()+5, 42, 60).intersects(new Rectangle(arr2[i].getX()+5, arr2[i].getY()+5, 36, 10))) {
+					player.setDead(true);
+					playerTimer.stop();
+					obsTimer.stop();
+					if (score>Integer.parseInt(Login.getAsteroids())) {//update user's personal score
+						Login.init();
+						Login.setAsteroids(String.valueOf(score));
+						Login.saveUsers();
+					}
+				}
+			}
+			for(int i = 0; i<formCnt3;i++) {//go through obstacle array to check each rocket individually
+				if (new Rectangle(player.getX()+5, player.getY()+5, 42, 60).intersects(new Rectangle(arr3[i].getX()+5, arr3[i].getY()+5, 36, 10))) {
+					player.setDead(true);
+					playerTimer.stop();
+					obsTimer.stop();
 					if (score>Integer.parseInt(Login.getAsteroids())) {//update user's personal score
 						Login.init();
 						Login.setAsteroids(String.valueOf(score));
@@ -208,7 +281,12 @@ public class SpaceShooters extends JFrame{
 		 * Method to update screen
 		 */
 		public void paintComponent(Graphics g) {
+			try {
 			super.paintComponent(g);
+			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/textFont.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(font);
+			
 			//draw background
 			g.drawImage(Images.getBackground(), 0, 0, null);
 			//draw player
@@ -217,8 +295,18 @@ public class SpaceShooters extends JFrame{
 			for (int i = 0; i<formCnt;i++) {
 				arr[i].drawObstacle(g);
 			}
+			for (int i = 0; i<formCnt2;i++) {
+				arr2[i].drawObstacle(g);
+			}
+			for (int i = 0; i<formCnt3;i++) {
+				arr3[i].drawObstacle(g);
+			}
 			//draw score
-			g.drawString("SCORE: " + String.valueOf(score), 1000, 20);
+			lblScore.setText("SCORE: " + String.valueOf(score));
+			lblScore.setBounds(1000,0,1200,50);
+			lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblScore.setForeground(Color.WHITE);
+			lblScore.paint(g);
 			if(player.getDead()) {//if player collided with rocket
 				try {
 					Thread.sleep(1000);//brief 1 second pause
@@ -229,11 +317,36 @@ public class SpaceShooters extends JFrame{
 					e.printStackTrace();
 				}
 			}
+			if(paused) {
+				lblPause.setBounds(0,0,1280,720);
+				lblPause.setVerticalAlignment(SwingConstants.CENTER);
+				lblPause.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPause.setFont(font);
+				lblPause.setForeground(Color.WHITE);
+				lblPause.paint(g);
+			}
+		}catch(Exception e1) {
+			System.out.println(e1.getLocalizedMessage());
 		}
-
+		}
+		public static void setPaused(boolean b)
+		{
+			paused = b;
+		}
+		public static boolean getPaused() {
+			return paused;
+		}
 		class MyKeyListener extends KeyAdapter{//class to determine key events
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_DOWN) {//down arrow
+		if(e.getKeyCode()==32) {
+			if(Map.getPaused()==true) {
+				Map.setPaused(false);
+			}
+			else {
+				Map.setPaused(true);
+			}
+		}
+			else if(e.getKeyCode() == KeyEvent.VK_DOWN) {//down arrow
 					player.setDy(3);
 				}
 				else if(e.getKeyCode()==KeyEvent.VK_UP) {//up arrow
@@ -312,7 +425,7 @@ public class SpaceShooters extends JFrame{
 		 * @param g
 		 */
 		public void drawObstacle(Graphics g) {
-			img = Images.getRocket();
+			img = Images.getAsteroid();
 			g.drawImage(img, x, y, null);//draw image at current x and y location
 		}
 		/**
@@ -323,23 +436,23 @@ public class SpaceShooters extends JFrame{
 			return (int)(Math.random()*720);
 		}
 	}
-	class Images{//class containing methods to access iamges
-		private static BufferedImage rocketImg, backgroundImg, shipImg;
-		private static Image rocket, background, ship;
+	class Images{//class containing methods to access images
+		private static BufferedImage asteroidImg, backgroundImg, shipImg;
+		private static Image asteroid, background, ship;
 		/**
 		 * method to initialize images
 		 * @throws Exception
 		 */
 		public static void loadImages() throws Exception {
-			rocketImg = ImageIO.read(new File("images/rocket.png"));
+			asteroidImg = ImageIO.read(new File("images/asteroid.png"));
 			shipImg = ImageIO.read(new File("images/spaceship.png"));
 			backgroundImg = ImageIO.read(new File("images/spaceBackground.jpg"));
-			rocket = rocketImg;
+			asteroid = asteroidImg;
 			ship = shipImg;
 			background = backgroundImg;
 		}
-		public static Image getRocket() {
-			return rocket;
+		public static Image getAsteroid() {
+			return asteroid;
 		}
 		public static Image getShip() {
 			return ship;

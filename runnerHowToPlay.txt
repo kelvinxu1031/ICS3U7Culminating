@@ -1,8 +1,8 @@
-Welcome to the Runner Game!
-
-Press the space bar to start.			
+Welcome to the Dinosaur Game!
+			
 Press the space bar to jump over any obstacles.
 If you touch an obstacle, you lose.
+You will gain points the longer the game goes on!
 
 Good luck!
 
