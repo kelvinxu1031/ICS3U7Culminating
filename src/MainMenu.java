@@ -101,7 +101,7 @@ public class MainMenu extends JFrame implements ActionListener{
 			}
 			
 		}catch(Exception e1) {
-			System.out.println(e1.getLocalizedMessage());
+			e1.printStackTrace();
 		}
 
 	}

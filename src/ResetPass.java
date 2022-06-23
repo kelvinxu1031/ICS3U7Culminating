@@ -6,7 +6,7 @@ import java.io.*;
 public class ResetPass extends JFrame implements ActionListener{
 
 	private static String file = "accounts.txt";
-	private static String[][] accounts = new String[6][1000];
+	private static String[][] accounts = new String[5][1000];
 	private String[] usernames;
 	private String[] passwords;
 	private String[]          flappyBirdScores;

@@ -16,9 +16,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 	private JLabel            lblRunner;
 	private JTable            leaderboardRunner;
 	private String[][]        accounts;
-	private String[][]        flappyBirdScores = new String[10][2];
-	private String[][]        asteroidsScores = new String[10][2];
-	private String[][]        runnerScores = new String[10][2];
+	private String[][]        flappyBirdScores = new String[1000][2];
+	private String[][]        sortedFlappyBirdScores = new String[10][2];
+	private String[][]        asteroidsScores = new String[1000][2];
+	private String[][]        sortedAsteroidScores = new String[10][2];
+	private String[][]        runnerScores = new String[1000][2];
+	private String[][]        sortedRunnerScores = new String[10][2];
 	private String[]          colNames = {"USERNAME", "SCORE"};
 	private JScrollPane       flappyBirdPane;
 	private JScrollPane       asteroidsPane;
@@ -38,7 +41,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 		//initialize 2D arrays and sort them in ascending order;
 		Login.init();
 		accounts = Login.getAccounts();
-		for(int i = 0; i<10;i++) {
+		for(int i = 0; i<1000;i++) {
 			if(accounts[0][i]==null) {
 				flappyBirdScores[i][0] = "";
 				flappyBirdScores[i][1] = "0";
@@ -47,7 +50,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 				runnerScores[i][0] = "";
 				runnerScores[i][1] = "0";
 			}
-			else{
+			else {
 				flappyBirdScores[i][0] = accounts[0][i];
 				flappyBirdScores[i][1] = accounts[2][i];
 				asteroidsScores[i][0] = accounts[0][i];
@@ -55,13 +58,38 @@ public class Leaderboard extends JFrame implements ActionListener{
 				runnerScores[i][0] = accounts[0][i];
 				runnerScores[i][1] = accounts[4][i];
 			}
-			
-			
 		}
 		sort(flappyBirdScores);
 		sort(asteroidsScores);
 		sort(runnerScores);
-		
+		for(int i = 0; i<10;i++) {
+			if(flappyBirdScores[i][0]==null) {
+				sortedFlappyBirdScores[i][0] = "";
+				sortedFlappyBirdScores[i][1] = "0";
+			}
+			else {
+				sortedFlappyBirdScores[i][0] = flappyBirdScores[i][0];
+				sortedFlappyBirdScores[i][1] = flappyBirdScores[i][1];
+			}
+
+			if(asteroidsScores[i][0]==null) {
+				sortedAsteroidScores[i][0] = "";
+				sortedAsteroidScores[i][1] = "0";
+			}
+			else {
+				sortedAsteroidScores[i][0] = asteroidsScores[i][0];
+				sortedAsteroidScores[i][1] = asteroidsScores[i][1];
+			}
+
+			if(runnerScores[i][0]==null) {
+				sortedRunnerScores[i][0] = "";
+				sortedRunnerScores[i][1] = "0";
+			}
+			else {
+				sortedRunnerScores[i][0] = runnerScores[i][0];
+				sortedRunnerScores[i][1] = runnerScores[i][1];
+			}
+		}
 		leaderboardF = new JFrame(title);
 		backgroundP = new JLabel(new ImageIcon("images/statsBackground.jpg"));
 		back = new JButton("BACK");
@@ -70,13 +98,13 @@ public class Leaderboard extends JFrame implements ActionListener{
 		lblFlappyBird = new JLabel("FLAPPY BIRD", SwingConstants.CENTER);
 		lblAsteroids = new JLabel("SPACE SHOOTERS", SwingConstants.CENTER);
 		lblRunner = new JLabel("DINOSAUR GAME", SwingConstants.CENTER);
-		leaderboardFlappyBird  = new JTable(flappyBirdScores, colNames);
-		leaderboardAsteroids  = new JTable(asteroidsScores, colNames);
-		leaderboardRunner  = new JTable(runnerScores, colNames);
+		leaderboardFlappyBird  = new JTable(sortedFlappyBirdScores, colNames);
+		leaderboardAsteroids  = new JTable(sortedAsteroidScores, colNames);
+		leaderboardRunner  = new JTable(sortedRunnerScores, colNames);
 		flappyBirdPane = new JScrollPane(leaderboardFlappyBird);
 		asteroidsPane = new JScrollPane(leaderboardAsteroids);
 		runnerPane = new JScrollPane(leaderboardRunner);
-		
+
 		leaderboardF.setLayout(null);
 		leaderboardF.setSize(720,470);
 		backgroundP.setLayout(null);
@@ -96,10 +124,10 @@ public class Leaderboard extends JFrame implements ActionListener{
 		runnerPane.setBounds(465,150,165,185);
 		back.setBounds(30,360,320,50);
 		play.setBounds(370,360,320,50);
-		
+
 		createButton(play);
 		createButton(back);
-		
+
 		backgroundP.add(lblTitle);
 		backgroundP.add(lblFlappyBird);
 		backgroundP.add(lblAsteroids);
@@ -110,12 +138,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 		backgroundP.add(play);
 		backgroundP.add(back);
 		leaderboardF.add(backgroundP);
-		
+
 		leaderboardF.setLocationRelativeTo(null);
 		leaderboardF.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		leaderboardF.setVisible(true);
 	}
-	
+
 	public void createButton(JButton b) throws Exception{
 		//import fonts
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
@@ -124,12 +152,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 		b.addActionListener(this);
 		b.setFont(font);
 	}
-	
+
 	public void sort(String[][] arr){
 		int i, j;
 		String temp1, temp2;
-		for(i = 0; i<10;i++) {
-			for(j = 1;j<(10-i);j++) {
+		for(i = 0; i<arr.length;i++) {
+			for(j = 1;j<(arr.length-i);j++) {
 				if (Integer.parseInt(arr[j-1][1])<Integer.parseInt(arr[j][1])) {
 					temp1 = arr[j-1][0];
 					temp2 = arr[j-1][1];
@@ -141,7 +169,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 			}
 		}
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource()==back) {
@@ -152,7 +180,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 				leaderboardF.dispose();
 				new GameOption("PLAY");
 			}
-			
+
 		}catch(Exception e1) {
 			System.out.println("ERROR!");
 		}
