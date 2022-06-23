@@ -11,7 +11,7 @@ public class DinosaurGame  extends JFrame{
 		f = new JFrame();
 		map = new Map();
 		f.add(map);
-		f.setSize(1000,720);
+		f.setSize(1280,720);
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		f.setVisible(true);
@@ -84,8 +84,8 @@ class Player{
 			y-=dy;
 			dy-=5;
 
-			if(y>=494) {
-				setY(494);
+			if(y>=530) {
+				setY(530);
 				jumping = false;
 				running = true;
 
@@ -122,16 +122,18 @@ class Map extends JPanel implements ActionListener{
 	private Timer timer;
 	private Timer obsTimer;
 	private Obstacle[] arr;
+	private int[] picCnt;
 	private int cnt = 0;
 	private int formCnt = 0;
 	public boolean collide;
 	public Map() throws Exception {
 		arr = new Obstacle[10];
+		picCnt = new int[10];
 		Obstacle.setCreateNew(true);
 		Obstacle.setDx(50);
 		score = 0;
 		tickCnt = 0;
-		player = new Player(100,494);
+		player = new Player(100,530);
 		Images.loadImages();
 
 
@@ -151,12 +153,16 @@ class Map extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == obsTimer && Obstacle.getCreateNew()) {
-			Obstacle obstacle = new Obstacle(2000, 500);
+			Obstacle obstacle = new Obstacle(2000, 536);
 			arr[cnt%10] = obstacle;
+			picCnt[cnt%10] =(int)(Math.random()*3)+1;
 			cnt++;
 			if (cnt<10) {
 				formCnt++;
 			}
+		}
+		if(tickCnt>500) {
+			Obstacle.setDx(75);
 		}
 		tickCnt++;
 		if(tickCnt%5==0 && !player.getDead()) {
@@ -219,7 +225,16 @@ class Map extends JPanel implements ActionListener{
 		updateLabel();
 		lblScore.repaint();
 		for (int i = 0; i<formCnt;i++) {
-			arr[i].drawCactus(g);
+			if(picCnt[i]==1) {
+				arr[i].drawCactus1(g);
+			}
+			else if(picCnt[i]==2) {
+				arr[i].drawCactus2(g);
+			}
+			else {
+				arr[i].drawCactus3(g);
+			}
+			
 		}
 
 		try {
@@ -276,9 +291,16 @@ class Obstacle{
 	public static boolean getCreateNew() {
 		return createNew;
 	}
-	public void drawCactus(Graphics g) {
+	public void drawCactus1(Graphics g) {
 		g.drawImage(Images.getCactus(), x, y, null);
 	}
+	public void drawCactus2(Graphics g) {
+		g.drawImage(Images.getCactus2(), x, y, null);
+	}
+	public void drawCactus3(Graphics g) {
+		g.drawImage(Images.getCactus3(), x, y, null);
+	}
+	
 }
 class Images{
 	private static BufferedImage img, cactusImg, cactusImg2, cactusImg3, backgroundImg;
@@ -293,12 +315,16 @@ class Images{
 		background = backgroundImg;
 		cactusImg = ImageIO.read(new File(strcactus));
 		cactus = cactusImg;
+		cactus2 = cactusImg2;
+		cactus3 = cactusImg3;
 		run1 = img.getSubimage(172, 0, 55, 56);
 		run2 = img.getSubimage(114, 0, 55, 56);
 		jump = img.getSubimage(0, 0, 55, 56);
 		dead = img.getSubimage(285, 0, 56, 56);
 		run[0]=run1;
 		run[1]=run2;
+		System.out.println(cactus.getHeight(null));
+		System.out.println(cactus.getWidth(null));
 	}
 	public static Image getBackground() {
 		return background;
@@ -311,6 +337,12 @@ class Images{
 	}
 	public static Image getCactus() {
 		return cactus;
+	}
+	public static Image getCactus2() {
+		return cactus2;
+	}
+	public static Image getCactus3() {
+		return cactus3;
 	}
 	public static Image getDead() {
 		return dead;

@@ -48,9 +48,9 @@ public class Stats extends JFrame implements ActionListener{
 		lblFlappyBird.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFlappyBird.setBounds(50,230, 620,50);
 		lblAsteroids.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAsteroids.setBounds(100,300,200,50);
+		lblAsteroids.setBounds(100,300,300,50);
 		lblRunner.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRunner.setBounds(420,300,200,50);
+		lblRunner.setBounds(420,300,300,50);
 		lblUser.setFont(textFont);
 		lblFlappyBird.setFont(textFont);
 		lblAsteroids.setFont(textFont);

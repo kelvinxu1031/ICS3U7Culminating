@@ -131,7 +131,6 @@ public class Login extends JFrame implements ActionListener{
 			accounts[3][i] = asteroidsScores[i];
 			accounts[4][i] = runnerScores[i];
 		}
-		in.close();
 	}
 	
 	/**
@@ -265,6 +264,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 
 	public static String getRunner() {
+		System.out.println(currRunnerScore);
 		return currRunnerScore;
 	}
 	public static void setRunner(String score) {
@@ -289,19 +289,12 @@ public class Login extends JFrame implements ActionListener{
 	}
 	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e){
-		int index;
 		try {
 			if (e.getSource() == enter) {
 				String user = uText.getText();
 				String pass = pText.getText();
 				
 				if(isUser(user,pass)) {
-					index = findIndex(user);
-					setUser(user);
-					setPass(pass);
-					setFlappyBird(accounts[2][index]);
-					setAsteroids(accounts[3][index]);
-					setRunner(accounts[4][index]);
 					JOptionPane.showMessageDialog(this, "Access Granted!");
 					loginF.dispose();
 					new MainMenu("WELCOME TO THE ARCADE");
