@@ -10,7 +10,7 @@
 
 	public class AsteroidsHowToPlay extends JFrame implements ActionListener{
 		private JFrame f;
-		private JPanel backgroundP;
+		private JLabel backgroundP;
 		private JLabel lblTitle;
 		private String line;
 		private JTextArea text;
@@ -30,8 +30,8 @@
 			ge.registerFont(titleFont);
 
 			f = new JFrame(title);
-			backgroundP = new JPanel();
-			lblTitle = new JLabel("ASTEROIDS");
+			backgroundP = new JLabel(new ImageIcon("images/spaceBackground.jpg"));
+			lblTitle = new JLabel("SPACE SHOOTERS");
 			text = new JTextArea();
 			back = new JButton("BACK");
 			play = new JButton("PLAY");

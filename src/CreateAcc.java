@@ -12,7 +12,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 
 	//file IO variables
 	private static JFrame  createAccF;
-	private JPanel         backgroundP;
+	private JLabel        backgroundP;
 	private JLabel         lblTitle;
 	private JLabel         lblUser;
 	private JLabel         lblPass;
@@ -37,7 +37,7 @@ public class CreateAcc extends JFrame implements ActionListener{
 
 		//instantiating components for GUI
 		createAccF  = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/mainMenuBackground.jpg"));
 		lblTitle    = new JLabel("CREATE YOUR ACCOUNT");
 		lblUser     = new JLabel("USERNAME: ");
 		lblPass     = new JLabel("PASSWORD: ");
@@ -51,10 +51,13 @@ public class CreateAcc extends JFrame implements ActionListener{
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
 		lblTitle.setFont(titleFont);
+		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(50, 50, 620, 50);
+		lblUser.setForeground(Color.WHITE);
 		lblUser.setFont(textFont);
 		lblUser.setBounds(50,150, 150,25);
+		lblPass.setForeground(Color.WHITE);
 		lblPass.setFont(textFont);
 		lblPass.setBounds(50,250,150,25);
 		uText.setBounds(200,150,470,25);

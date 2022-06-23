@@ -5,7 +5,7 @@ import java.io.*;
 
 public class GameOption extends JFrame implements ActionListener{
 	private static JFrame gameOptionF;
-	private JPanel  backgroundP;
+	private JLabel  backgroundP;
 	private JLabel  lblTitle;
 	private JButton flappyBird;
 	private JButton asteroid;
@@ -24,7 +24,7 @@ public class GameOption extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		gameOptionF = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/gameOptionBackground.jpg"));
 		lblTitle = new JLabel("WELCOME TO THE ARCADE!!");
 		flappyBird = new JButton("FLAPPY BIRD");
 		asteroid = new JButton("SPACE SHOOTERS");

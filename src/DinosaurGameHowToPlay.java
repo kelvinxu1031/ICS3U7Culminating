@@ -11,7 +11,7 @@ import javax.swing.*;
 public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
 	
 	private JFrame f;
-	private JPanel backgroundP;
+	private JLabel backgroundP;
 	private JLabel lblTitle;
 	private String line;
 	private JTextArea text;
@@ -31,8 +31,8 @@ public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		f = new JFrame(title);
-		backgroundP = new JPanel();
-		lblTitle = new JLabel("RUNNER_GAME");
+		backgroundP = new JLabel(new ImageIcon("images/dinosaurBackground.jpg"));
+		lblTitle = new JLabel("DINOSAUR GAME");
 		text = new JTextArea();
 		back = new JButton("BACK");
 		play = new JButton("PLAY");

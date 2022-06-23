@@ -13,7 +13,7 @@ public class Login extends JFrame implements ActionListener{
 
 	//components for GUI
 	private static JFrame     loginF;
-	private JPanel            backgroundP;
+	private JLabel            backgroundP;
 	private JLabel            lblTitle;
 	private JButton           enter;
 	private JButton           createAcc;
@@ -67,7 +67,7 @@ public class Login extends JFrame implements ActionListener{
 
 		//instantiating components for GUI
 		loginF      = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/mainMenuBackground.jpg"));
 		lblTitle    = new JLabel("ARCADE");
 		lblUser     = new JLabel("Username: ");
 		lblPass     = new JLabel("Password:");
@@ -80,9 +80,12 @@ public class Login extends JFrame implements ActionListener{
 		//formatting for components
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setBounds(100, 50, 520, 50);
+		lblUser.setForeground(Color.WHITE);
 		lblUser.setFont(textFont);
 		lblUser.setBounds(50,150, 150,25);
+		lblPass.setForeground(Color.WHITE);
 		lblPass.setFont(textFont);
 		lblPass.setBounds(50,250,150,25);
 		uText.setBounds(200,150,470,25);

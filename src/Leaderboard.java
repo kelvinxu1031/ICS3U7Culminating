@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class Leaderboard extends JFrame implements ActionListener{
 	private static JFrame     leaderboardF;
-	private JPanel            backgroundP;
+	private JLabel            backgroundP;
 	private JButton           back;
 	private JButton           play;
 	private JLabel            lblTitle;
@@ -63,12 +63,12 @@ public class Leaderboard extends JFrame implements ActionListener{
 		sort(runnerScores);
 		
 		leaderboardF = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/statsBackground.jpg"));
 		back = new JButton("BACK");
 		play = new JButton("PLAY");
 		lblTitle = new JLabel("LEADERBOARDS");
 		lblFlappyBird = new JLabel("FLAPPY BIRD", SwingConstants.CENTER);
-		lblAsteroids = new JLabel("ASTEROIDS", SwingConstants.CENTER);
+		lblAsteroids = new JLabel("SPACE SHOOTERS", SwingConstants.CENTER);
 		lblRunner = new JLabel("DINOSAUR GAME", SwingConstants.CENTER);
 		leaderboardFlappyBird  = new JTable(flappyBirdScores, colNames);
 		leaderboardAsteroids  = new JTable(asteroidsScores, colNames);
@@ -76,15 +76,20 @@ public class Leaderboard extends JFrame implements ActionListener{
 		flappyBirdPane = new JScrollPane(leaderboardFlappyBird);
 		asteroidsPane = new JScrollPane(leaderboardAsteroids);
 		runnerPane = new JScrollPane(leaderboardRunner);
+		
 		leaderboardF.setLayout(null);
 		leaderboardF.setSize(720,470);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
+		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(titleFont);
 		lblTitle.setBounds(50,50,620,50);
+		lblFlappyBird.setForeground(Color.WHITE);
 		lblFlappyBird.setBounds(45,100,165,50);
+		lblAsteroids.setForeground(Color.WHITE);
 		lblAsteroids.setBounds(255,100,165,50);
+		lblRunner.setForeground(Color.WHITE);
 		lblRunner.setBounds(465,100,165,50);
 		flappyBirdPane.setBounds(45,150,165,185);
 		asteroidsPane.setBounds(255,150, 165,185);

@@ -5,7 +5,7 @@ import java.io.*;
 
 public class Stats extends JFrame implements ActionListener{
 	private static JFrame     statsF;
-	private JPanel            backgroundP;
+	private JLabel            backgroundP;
 	private JButton           back;
 	private JButton           play;
 	private JLabel            lblStats;
@@ -26,13 +26,13 @@ public class Stats extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		statsF = new JFrame(title);
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/statsBackground.jpg"));
 		back = new JButton("BACK");
 		play = new JButton("PLAY NOW!");
 		lblStats = new JLabel("PERSONAL STATS");
 		lblUser = new JLabel("USER: " + Login.getUser());
 		lblFlappyBird = new JLabel("Flappy Bird: " + Login.getFlappyBird());
-		lblAsteroids = new JLabel("Asteroids: " + Login.getAsteroids());
+		lblAsteroids = new JLabel("Space Shooters: " + Login.getAsteroids());
 		lblRunner = new JLabel("Dinosaur Game: " + Login.getRunner());
 
 		statsF.setLayout(null);
@@ -40,14 +40,19 @@ public class Stats extends JFrame implements ActionListener{
 		backgroundP.setSize(720,470);
 		back.setBounds(30,375,320,50);
 		play.setBounds(370,375,320,50);
+		lblStats.setForeground(Color.WHITE);
 		lblStats.setFont(titleFont);
 		lblStats.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStats.setBounds(50,50,620,50);
+		lblUser.setForeground(Color.WHITE);
 		lblUser.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUser.setBounds(50,150,620,50);
+		lblFlappyBird.setForeground(Color.WHITE);
 		lblFlappyBird.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFlappyBird.setBounds(50,230, 620,50);
+		lblAsteroids.setForeground(Color.WHITE);
 		lblAsteroids.setBounds(100,300,300,50);
+		lblRunner.setForeground(Color.WHITE);
 		lblRunner.setBounds(420,300,300,50);
 		lblUser.setFont(textFont);
 		lblFlappyBird.setFont(textFont);

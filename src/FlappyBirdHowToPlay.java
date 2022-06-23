@@ -10,7 +10,7 @@
 
 	public class FlappyBirdHowToPlay extends JFrame implements ActionListener{
 		private JFrame f;
-		private JPanel backgroundP;
+		private JLabel backgroundP;
 		private JLabel lblTitle;
 		private String line;
 		private JTextArea text;
@@ -30,7 +30,7 @@
 			ge.registerFont(titleFont);
 
 			f = new JFrame(title);
-			backgroundP = new JPanel();
+			backgroundP = new JLabel(new ImageIcon("images/flappyBirdBackground.jpg"));
 			lblTitle = new JLabel("FLAPPY_BIRD");
 			text = new JTextArea();
 			back = new JButton("BACK");

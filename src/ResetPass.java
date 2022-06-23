@@ -18,7 +18,7 @@ public class ResetPass extends JFrame implements ActionListener{
 
 
 	private static JFrame  resetPassF;
-	private JPanel         backgroundP;
+	private JLabel         backgroundP;
 	private JLabel         lblTitle;
 	private JLabel         lblUser;
 	private JLabel         lblPass;
@@ -57,7 +57,7 @@ public class ResetPass extends JFrame implements ActionListener{
 
 		//instantiating components for GUI
 		resetPassF      = new JFrame(title);
-		backgroundP     = new JPanel();
+		backgroundP     = new JLabel(new ImageIcon("images/mainMenuBackground.jpg"));
 		lblTitle        = new JLabel("RESET YOUR PASSWORD");
 		lblUser         = new JLabel("USERNAME: ");
 		lblPass         = new JLabel("PASSWORD: ");
@@ -72,13 +72,17 @@ public class ResetPass extends JFrame implements ActionListener{
 		resetPassF.setLayout(null);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
+		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(50, 50, 620, 50);
+		lblUser.setForeground(Color.WHITE);
 		lblUser.setFont(textFont);
 		lblUser.setBounds(50,150, 250,25);
+		lblPass.setForeground(Color.WHITE);
 		lblPass.setFont(textFont);
 		lblPass.setBounds(50,200,250,25);
+		lblConfirmPass.setForeground(Color.WHITE);
 		lblConfirmPass.setFont(textFont);
 		lblConfirmPass.setBounds(50,250,250,25);
 		uText.setBounds(300,150,370,25);
