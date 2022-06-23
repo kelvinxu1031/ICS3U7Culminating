@@ -3,6 +3,8 @@ Welcome to the Dinosaur Game!
 Press the space bar to jump over any obstacles.
 If you touch an obstacle, you lose.
 You will gain points the longer the game goes on!
+You are able to pause the game at any time by 
+clicking p.
 
 Good luck!
 

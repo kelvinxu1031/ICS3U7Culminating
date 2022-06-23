@@ -6,9 +6,6 @@ import java.awt.image.*;
 import java.io.*;
 
 public class FlappyBird extends JFrame{
-	public static void main (String[] args) throws Exception {
-		new FlappyBird();
-	}
 	private static JFrame f;
 	private Map map;
 	/**
@@ -29,8 +26,8 @@ public class FlappyBird extends JFrame{
 	public static void disposeF() {
 		f.dispose();
 	}
-	
-	
+
+
 	class Player{
 		private int x, y, dy;
 		private boolean dead;
@@ -41,7 +38,7 @@ public class FlappyBird extends JFrame{
 			this.dy = 30;
 			dead = false;
 		}
-		
+
 		public boolean getDead() {
 			return dead;
 		}
@@ -68,7 +65,7 @@ public class FlappyBird extends JFrame{
 			img = Images.getFlappy();
 			g.drawImage(img, x, y, null);
 		}
-		
+
 	}
 	class TopObstacle{
 		private int x, y;
@@ -92,7 +89,7 @@ public class FlappyBird extends JFrame{
 		public int getY() {
 			return y;
 		}
-		
+
 		public void drawObstacle(Graphics g) {
 			g.drawImage(Images.getTop(), x, y, null);
 		}
@@ -122,14 +119,13 @@ public class FlappyBird extends JFrame{
 		public int getY() {
 			return y;
 		}
-		
+
 		public void drawObstacle(Graphics g) {
 			g.drawImage(Images.getBot(), x, y, null);
 		}
 	}
 	class Map extends JPanel implements ActionListener{
 		private static int score, rand;
-		private JLabel lblScore;
 		private int tickCnt;
 		private Player player;
 		private Timer timer;
@@ -138,6 +134,11 @@ public class FlappyBird extends JFrame{
 		private BotObstacle[] botArr;
 		public boolean collide;
 		private int cnt, formCnt;
+		private static boolean paused, started;
+		private JLabel lblPause = new JLabel("PAUSED");
+		private JLabel lblStart = new JLabel("PRESS SPACE TO START");
+		private JLabel lblScore = new JLabel("SCORE: 0");
+
 		public Map() throws Exception {
 			topArr = new TopObstacle[10];
 			botArr = new BotObstacle[10];
@@ -150,7 +151,6 @@ public class FlappyBird extends JFrame{
 
 			addKeyListener(new MyRunnerKeyListener());
 			setFocusable(true);
-			lblScore = new JLabel("Score: " + score);
 			lblScore.setBounds(0, 0, 100, 25);
 			this.add(lblScore);
 
@@ -158,43 +158,47 @@ public class FlappyBird extends JFrame{
 			timer.start();
 			obsTimer = new Timer(2000, (ActionListener) this);
 			obsTimer.start();
-			
+
 			cnt = 0;
 			formCnt = 0;
 
+
+			paused = false;
+			started = false;
+
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(player.getX());
-			System.out.println(player.getY());
-			if(e.getSource() == obsTimer) {
-				rand = TopObstacle.genY();
-				TopObstacle obstacle = new TopObstacle(2000, rand);
-				topArr[cnt%10] = obstacle;
-				BotObstacle obstacle2 = new BotObstacle(2000, rand+600);
-				botArr[cnt%10] = obstacle2;
-				cnt++;
-				if (cnt<10) {
-					formCnt++;
+			if(!paused && started) {
+				if(e.getSource() == obsTimer) {
+					rand = TopObstacle.genY();
+					TopObstacle obstacle = new TopObstacle(2000, rand);
+					topArr[cnt%10] = obstacle;
+					BotObstacle obstacle2 = new BotObstacle(2000, rand+600);
+					botArr[cnt%10] = obstacle2;
+					cnt++;
+					if (cnt<10) {
+						formCnt++;
+					}
 				}
-			}
-			tickCnt++;
-			if(tickCnt%5==0 && !player.getDead()) {
-				score+=1;
-			}
-			try {
-				detectCollision();
-			} catch (Exception e1) {
-				System.out.println(e1.getLocalizedMessage());
-			}
-			player.move();
-			for (int i = 0; i<formCnt;i++) {
-				topArr[i].move();
-				botArr[i].move();
+				tickCnt++;
+				if(tickCnt%5==0 && !player.getDead()) {
+					score+=1;
+				}
+				try {
+					detectCollision();
+				} catch (Exception e1) {
+					System.out.println(e1.getLocalizedMessage());
+				}
+				player.move();
+				for (int i = 0; i<formCnt;i++) {
+					topArr[i].move();
+					botArr[i].move();
+				}
 			}
 			repaint();
 		}
-		
+
 		public void detectCollision() throws Exception {
 			for (int i = 0; i<formCnt;i++) {
 				collide = ((new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(topArr[i].getX(), topArr[i].getY(),69, 400))|| (new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(botArr[i].getX(), botArr[i].getY(),69, 400))) || player.getY()<0 || player.getY()>650));
@@ -212,10 +216,18 @@ public class FlappyBird extends JFrame{
 		}
 		class MyRunnerKeyListener extends KeyAdapter{//class to determine key events
 			public void keyPressed(KeyEvent e) {
-				if(player.getDead()) {
-
+				if(e.getKeyChar()=='p') {
+					if(Map.getPaused()==true) {
+						Map.setPaused(false);
+					}
+					else {
+						Map.setPaused(true);
+					}
 				}
 				else if(e.getKeyChar() == ' ') {//space
+					if(!Map.getStarted()) {
+						Map.setStarted(true);
+					}
 					player.setDy(20);
 					repaint();
 				}
@@ -224,33 +236,75 @@ public class FlappyBird extends JFrame{
 			public void keyTyped(KeyEvent e) {}
 		}
 		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.drawImage(Images.getBackground(), 0, 0, null);
-			for (int i = 0; i<formCnt;i++) {
-				topArr[i].drawObstacle(g);
-				botArr[i].drawObstacle(g);
-				
-			}
-
 			try {
-				player.drawPlayer(g);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if(player.getDead()) {
+				super.paintComponent(g);
+				Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/textFont.ttf")).deriveFont(20f);
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(font);
+				g.drawImage(Images.getBackground(), 0, 0, null);
+				for (int i = 0; i<formCnt;i++) {
+					topArr[i].drawObstacle(g);
+					botArr[i].drawObstacle(g);
+
+				}
 
 				try {
-					Thread.sleep(1000);
-					FlappyBird.disposeF();
-					new GameOver();
+					player.drawPlayer(g);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				lblScore.setText("SCORE: " + String.valueOf(score));
+				lblScore.setBounds(1000,0,1200,50);
+				lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
+				lblScore.setForeground(Color.WHITE);
+				lblScore.paint(g);
+				if(player.getDead()) {
+
+					try {
+						Thread.sleep(1000);
+						FlappyBird.disposeF();
+						new GameOver();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if(!started) {
+					lblStart.setBounds(0,0,1280,720);
+					lblStart.setVerticalAlignment(SwingConstants.CENTER);
+					lblStart.setHorizontalAlignment(SwingConstants.CENTER);
+					lblStart.setFont(font);
+					lblStart.setForeground(Color.WHITE);
+					lblStart.paint(g);
+
+				}
+				else if(paused) {
+					lblPause.setBounds(0,0,1280,720);
+					lblPause.setVerticalAlignment(SwingConstants.CENTER);
+					lblPause.setHorizontalAlignment(SwingConstants.CENTER);
+					lblPause.setFont(font);
+					lblPause.setForeground(Color.WHITE);
+					lblPause.paint(g);
+				}
+			}catch(Exception e1) {
+				System.out.println(e1.getLocalizedMessage());
 			}
 		}
-		
+		public static void setPaused(boolean b)
+		{
+			paused = b;
+		}
+		public static boolean getPaused() {
+			return paused;
+		}
+		public static boolean getStarted() {
+			return started;
+		}
+		public static void setStarted(boolean b) {
+			started = b;
+		}
+
 	}
-	
+
 	class Images{
 		private static BufferedImage flappyImg, topObsImg, botObsImg, backgroundImg;
 		private static Image flappy, topObs, botObs, background;
@@ -277,6 +331,6 @@ public class FlappyBird extends JFrame{
 			return background;
 		}
 	}
-	
+
 
 }

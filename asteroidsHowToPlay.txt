@@ -3,6 +3,7 @@ Welcome to Space Shooters!
 The objective of the game is to dodge any incoming rockets.
 You will control a ship that can be moved using the arrow keys.
 You can gain more points as you progress. Rockets will come at you faster
-the longer the game goes on.
+the longer the game goes on. You can pause the game at any time by clicking
+the space bar.
 
 Good luck!

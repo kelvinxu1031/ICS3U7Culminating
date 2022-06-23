@@ -253,6 +253,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 	public static void setFlappyBird(String score) {
 		currFlappyBirdScore = score;
+		accounts[2][currI] = score;
 	}
 	
 	public static String getAsteroids() {

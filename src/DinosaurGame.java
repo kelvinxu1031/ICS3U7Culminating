@@ -116,7 +116,9 @@ class Player{
 }
 class Map extends JPanel implements ActionListener{
 	private static int score;
-	private JLabel lblScore;
+	private JLabel lblPause = new JLabel("PAUSED");
+	private JLabel lblStart = new JLabel("PRESS SPACE TO START");
+	private JLabel lblScore = new JLabel("SCORE: 0");
 	private int tickCnt;
 	private Player player;
 	private Timer timer;
@@ -126,6 +128,7 @@ class Map extends JPanel implements ActionListener{
 	private int cnt = 0;
 	private int formCnt = 0;
 	public boolean collide;
+	private static boolean paused, started;
 	public Map() throws Exception {
 		arr = new Obstacle[10];
 		picCnt = new int[10];
@@ -139,7 +142,6 @@ class Map extends JPanel implements ActionListener{
 
 		addKeyListener(new MyRunnerKeyListener());
 		setFocusable(true);
-		lblScore = new JLabel("Score: " + score);
 		lblScore.setBounds(0, 0, 100, 25);
 		this.add(lblScore);
 
@@ -150,34 +152,40 @@ class Map extends JPanel implements ActionListener{
 		player.setStart(true);
 		player.setRunning(true);
 
+
+		paused = false;
+		started = false;
+
 	}
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == obsTimer && Obstacle.getCreateNew()) {
-			Obstacle obstacle = new Obstacle(2000, 536);
-			arr[cnt%10] = obstacle;
-			picCnt[cnt%10] =(int)(Math.random()*3)+1;
-			cnt++;
-			if (cnt<10) {
-				formCnt++;
+		if(!paused) {
+			if(e.getSource() == obsTimer && Obstacle.getCreateNew()) {
+				Obstacle obstacle = new Obstacle(2000, 536);
+				arr[cnt%10] = obstacle;
+				picCnt[cnt%10] =(int)(Math.random()*3)+1;
+				cnt++;
+				if (cnt<10) {
+					formCnt++;
+				}
 			}
+			if(tickCnt>500) {
+				Obstacle.setDx(75);
+			}
+			tickCnt++;
+			if(tickCnt%5==0 && !player.getDead()) {
+				score+=1;
+			}
+			try {
+				detectCollision();
+			} catch (Exception e1) {
+				System.out.println(e1.getLocalizedMessage());
+			}
+			player.move();
+			for (int i = 0; i<formCnt;i++) {
+				arr[i].move();
+			}
+			repaint();
 		}
-		if(tickCnt>500) {
-			Obstacle.setDx(75);
-		}
-		tickCnt++;
-		if(tickCnt%5==0 && !player.getDead()) {
-			score+=1;
-		}
-		try {
-			detectCollision();
-		} catch (Exception e1) {
-			System.out.println(e1.getLocalizedMessage());
-		}
-		player.move();
-		for (int i = 0; i<formCnt;i++) {
-			arr[i].move();
-		}
-		repaint();
 	}
 	public void detectCollision() throws Exception {
 		for (int i = 0; i<formCnt;i++) {
@@ -197,12 +205,39 @@ class Map extends JPanel implements ActionListener{
 		}
 
 	}
+
+	public static void setPaused(boolean b)
+	{
+		paused = b;
+	}
+	public static boolean getPaused() {
+		return paused;
+	}
+	public static boolean getStarted() {
+		return started;
+	}
+	public static void setStarted(boolean b) {
+		started = b;
+	}
 	class MyRunnerKeyListener extends KeyAdapter{//class to determine key events
 		public void keyPressed(KeyEvent e) {
-			if(player.getJumping() || player.getDead()) {
+			if(e.getKeyChar()=='p') {
+				if(Map.getPaused()==true) {
+					Map.setPaused(false);
+				}
+				else {
+					Map.setPaused(true);
+				}
+			}
+			else if(player.getJumping() || player.getDead()) {
 
 			}
+			
 			else if(e.getKeyChar() == ' ') {//space
+
+				if(!Map.getStarted()) {
+					Map.setStarted(true);
+				}
 				if(player.getJumping()) {
 					player.setJumping(false);
 					player.setRunning(true);
@@ -213,44 +248,74 @@ class Map extends JPanel implements ActionListener{
 					player.setDy(30);
 					player.setRunning(false);
 				}
-				repaint();
+
 			}
+			repaint();
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	}
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(Images.getBackground(), 0, 0, null);
-		updateLabel();
-		lblScore.repaint();
-		for (int i = 0; i<formCnt;i++) {
-			if(picCnt[i]==1) {
-				arr[i].drawCactus1(g);
-			}
-			else if(picCnt[i]==2) {
-				arr[i].drawCactus2(g);
-			}
-			else {
-				arr[i].drawCactus3(g);
-			}
-			
-		}
-
 		try {
-			player.myDraw(g);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(player.getDead()) {
+			super.paintComponent(g);
+			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/textFont.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(font);
+			g.drawImage(Images.getBackground(), 0, 0, null);
+			updateLabel();
+			lblScore.repaint();
+			for (int i = 0; i<formCnt;i++) {
+				if(picCnt[i]==1) {
+					arr[i].drawCactus1(g);
+				}
+				else if(picCnt[i]==2) {
+					arr[i].drawCactus2(g);
+				}
+				else {
+					arr[i].drawCactus3(g);
+				}
+
+			}
 
 			try {
-				Thread.sleep(1000);
-				DinosaurGame.disposeF();
-				new GameOver();
+				player.myDraw(g);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			lblScore.setText("SCORE: " + String.valueOf(score));
+			lblScore.setBounds(1000,0,1200,50);
+			lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblScore.setForeground(Color.WHITE);
+			lblScore.paint(g);
+			if(player.getDead()) {
+
+				try {
+					Thread.sleep(1000);
+					DinosaurGame.disposeF();
+					new GameOver();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(!started) {
+				lblStart.setBounds(0,0,1280,720);
+				lblStart.setVerticalAlignment(SwingConstants.CENTER);
+				lblStart.setHorizontalAlignment(SwingConstants.CENTER);
+				lblStart.setFont(font);
+				lblStart.setForeground(Color.WHITE);
+				lblStart.paint(g);
+
+			}
+			else if(paused) {
+				lblPause.setBounds(0,0,1280,720);
+				lblPause.setVerticalAlignment(SwingConstants.CENTER);
+				lblPause.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPause.setFont(font);
+				lblPause.setForeground(Color.WHITE);
+				lblPause.paint(g);
+			}
+		}catch(Exception e1) {
+			System.out.println(e1.getLocalizedMessage());
 		}
 	}
 
@@ -300,7 +365,7 @@ class Obstacle{
 	public void drawCactus3(Graphics g) {
 		g.drawImage(Images.getCactus3(), x, y, null);
 	}
-	
+
 }
 class Images{
 	private static BufferedImage img, cactusImg, cactusImg2, cactusImg3, backgroundImg;

@@ -122,10 +122,11 @@ public class SpaceShooters extends JFrame{
 		private Timer playerTimer;//timer to track movement of player and obstacles
 		private Obstacle[] arr, arr2, arr3;//array containing obstacles
 		private int tickCnt, cnt, cnt2, cnt3, formCnt, formCnt2, formCnt3;//counters to keep track of progress in the game
-		private static boolean paused;
+		private static boolean paused, started;
 		private JLabel lblPause = new JLabel("PAUSED");
+		private JLabel lblStart = new JLabel("PRESS SPACE TO START");
 		private JLabel lblScore = new JLabel("SCORE: 0");
-		
+
 		/**
 		 * Constructor for Map class
 		 */
@@ -151,7 +152,8 @@ public class SpaceShooters extends JFrame{
 			formCnt = 0;
 			//initialize difficulty to easy(0)
 			difficulty = 0;
-			paused = false;
+			paused = true;
+			started = false;
 		}
 		/**
 		 * Method to track user input actions
@@ -185,7 +187,7 @@ public class SpaceShooters extends JFrame{
 						e1.printStackTrace();
 					}
 				}
-				
+
 				if(e.getSource()==obsTimer) {//if obstacle timer goes off
 					arr[cnt%20] = new Obstacle(1300, Obstacle.genInt());//spawn new obstacle at random y-coordinate
 					cnt++;//increment cnt
@@ -225,12 +227,12 @@ public class SpaceShooters extends JFrame{
 						difficulty = 2;
 						Obstacle.setDx(-8);
 					}
-					
+
 				}
-				
+
 			}
 			repaint();//update screen
-			
+
 		}
 
 		/**
@@ -282,52 +284,62 @@ public class SpaceShooters extends JFrame{
 		 */
 		public void paintComponent(Graphics g) {
 			try {
-			super.paintComponent(g);
-			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/textFont.ttf")).deriveFont(20f);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(font);
-			
-			//draw background
-			g.drawImage(Images.getBackground(), 0, 0, null);
-			//draw player
-			player.drawPlayer(g);
-			//draw obstacles
-			for (int i = 0; i<formCnt;i++) {
-				arr[i].drawObstacle(g);
-			}
-			for (int i = 0; i<formCnt2;i++) {
-				arr2[i].drawObstacle(g);
-			}
-			for (int i = 0; i<formCnt3;i++) {
-				arr3[i].drawObstacle(g);
-			}
-			//draw score
-			lblScore.setText("SCORE: " + String.valueOf(score));
-			lblScore.setBounds(1000,0,1200,50);
-			lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblScore.setForeground(Color.WHITE);
-			lblScore.paint(g);
-			if(player.getDead()) {//if player collided with rocket
-				try {
-					Thread.sleep(1000);//brief 1 second pause
-					//switch screens
-					SpaceShooters.disposeF();
-					new GameOver();
-				} catch (Exception e) {
-					e.printStackTrace();
+				super.paintComponent(g);
+				Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/textFont.ttf")).deriveFont(20f);
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(font);
+
+				//draw background
+				g.drawImage(Images.getBackground(), 0, 0, null);
+				//draw player
+				player.drawPlayer(g);
+				//draw obstacles
+				for (int i = 0; i<formCnt;i++) {
+					arr[i].drawObstacle(g);
 				}
+				for (int i = 0; i<formCnt2;i++) {
+					arr2[i].drawObstacle(g);
+				}
+				for (int i = 0; i<formCnt3;i++) {
+					arr3[i].drawObstacle(g);
+				}
+				//draw score
+				lblScore.setText("SCORE: " + String.valueOf(score));
+				lblScore.setBounds(1000,0,1200,50);
+				lblScore.setHorizontalAlignment(SwingConstants.RIGHT);
+				lblScore.setForeground(Color.WHITE);
+				lblScore.paint(g);
+				if(player.getDead()) {//if player collided with rocket
+					try {
+						Thread.sleep(1000);//brief 1 second pause
+						//switch screens
+						SpaceShooters.disposeF();
+						new GameOver();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if(!started) {
+					lblStart.setBounds(0,0,1280,720);
+					lblStart.setVerticalAlignment(SwingConstants.CENTER);
+					lblStart.setHorizontalAlignment(SwingConstants.CENTER);
+					lblStart.setFont(font);
+					lblStart.setForeground(Color.WHITE);
+					lblStart.paint(g);
+
+				}
+				else if(paused) {
+					lblPause.setBounds(0,0,1280,720);
+					lblPause.setVerticalAlignment(SwingConstants.CENTER);
+					lblPause.setHorizontalAlignment(SwingConstants.CENTER);
+					lblPause.setFont(font);
+					lblPause.setForeground(Color.WHITE);
+					lblPause.paint(g);
+				}
+
+			}catch(Exception e1) {
+				System.out.println(e1.getLocalizedMessage());
 			}
-			if(paused) {
-				lblPause.setBounds(0,0,1280,720);
-				lblPause.setVerticalAlignment(SwingConstants.CENTER);
-				lblPause.setHorizontalAlignment(SwingConstants.CENTER);
-				lblPause.setFont(font);
-				lblPause.setForeground(Color.WHITE);
-				lblPause.paint(g);
-			}
-		}catch(Exception e1) {
-			System.out.println(e1.getLocalizedMessage());
-		}
 		}
 		public static void setPaused(boolean b)
 		{
@@ -336,17 +348,26 @@ public class SpaceShooters extends JFrame{
 		public static boolean getPaused() {
 			return paused;
 		}
+		public static boolean getStarted() {
+			return started;
+		}
+		public static void setStarted(boolean b) {
+			started = b;
+		}
 		class MyKeyListener extends KeyAdapter{//class to determine key events
 			public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode()==32) {
-			if(Map.getPaused()==true) {
-				Map.setPaused(false);
-			}
-			else {
-				Map.setPaused(true);
-			}
-		}
-			else if(e.getKeyCode() == KeyEvent.VK_DOWN) {//down arrow
+				if(e.getKeyCode()==32) {
+					if(!Map.getStarted()) {
+						Map.setStarted(true);
+					}
+					if(Map.getPaused()==true) {
+						Map.setPaused(false);
+					}
+					else {
+						Map.setPaused(true);
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_DOWN) {//down arrow
 					player.setDy(3);
 				}
 				else if(e.getKeyCode()==KeyEvent.VK_UP) {//up arrow
