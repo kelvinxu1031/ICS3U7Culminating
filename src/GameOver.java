@@ -5,7 +5,7 @@ import java.io.*;
 
 public class GameOver extends JFrame implements ActionListener{
 	private JFrame f;
-	private JPanel backgroundP;
+	private JLabel backgroundP;
 	private JLabel lblTitle;
 	private JButton mainMenu;
 	private JButton leaderboard;
@@ -22,14 +22,13 @@ public class GameOver extends JFrame implements ActionListener{
 		ge.registerFont(titleFont);
 
 		f = new JFrame();
-		backgroundP = new JPanel();
+		backgroundP = new JLabel(new ImageIcon("images/gameOverBackground.jpg"));
 		lblTitle = new JLabel("GAME OVER");
 		mainMenu = new JButton("MAIN MENU");
 		leaderboard = new JButton("LEADERBOARD");
 
 		f.setLayout(null);
-		f.setSize(720,470);
-		backgroundP.setLayout(null);
+		f.setSize(720,470); 
 		backgroundP.setSize(720,470);
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);

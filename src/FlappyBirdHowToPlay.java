@@ -82,7 +82,8 @@
 					new GameOption("PLAY");
 				}
 				if(e.getSource()==play) {
-					f.dispose(); //add new PacMan() when we make the program;
+					f.dispose(); 
+					new FlappyBird();
 				}
 			}catch(Exception e1) {
 				System.out.println("ERROR");

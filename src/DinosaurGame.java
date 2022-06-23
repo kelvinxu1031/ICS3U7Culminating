@@ -323,8 +323,6 @@ class Images{
 		dead = img.getSubimage(285, 0, 56, 56);
 		run[0]=run1;
 		run[1]=run2;
-		System.out.println(cactus.getHeight(null));
-		System.out.println(cactus.getWidth(null));
 	}
 	public static Image getBackground() {
 		return background;

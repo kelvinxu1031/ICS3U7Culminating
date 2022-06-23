@@ -198,11 +198,11 @@ public class Login extends JFrame implements ActionListener{
 		for (int i = 0; i<numOfUsers;i++) {
 			if (accounts[0][i].equals(user.trim()) && accounts[1][i].equals(pass.trim())) {
 				Login.setI(i);
-				Login.setUser(accounts[0][Login.getI()]);
-				Login.setPass(accounts[1][Login.getI()]);
-				Login.setFlappyBird(accounts[2][Login.getI()]);
-				Login.setAsteroids(accounts[3][Login.getI()]);
-				Login.setRunner(accounts[4][Login.getI()]);
+				Login.setUser(accounts[0][i]);
+				Login.setPass(accounts[1][i]);
+				Login.setFlappyBird(accounts[2][i]);
+				Login.setAsteroids(accounts[3][i]);
+				Login.setRunner(accounts[4][i]);
 				return true;
 			}
 		}
@@ -260,11 +260,10 @@ public class Login extends JFrame implements ActionListener{
 	}
 	public static void setAsteroids(String score) {
 		currAsteroidsScore = score;
-		accounts[4][Login.getI()] = score;
+		accounts[3][currI] = score;
 	}
 
 	public static String getRunner() {
-		System.out.println(currRunnerScore);
 		return currRunnerScore;
 	}
 	public static void setRunner(String score) {
