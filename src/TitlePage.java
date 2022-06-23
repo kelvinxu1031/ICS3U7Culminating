@@ -15,6 +15,7 @@ public class TitlePage extends JFrame implements ActionListener{
 	private JFrame titlePageF;
 	private JLabel background;
 	private JLabel lblTitle;
+	private JLabel names;
 	private JButton login;
 	private JButton exit;
 	private ImageIcon img;
@@ -27,7 +28,7 @@ public class TitlePage extends JFrame implements ActionListener{
 	public TitlePage(String title) throws Exception{
 		//import fonts
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
+		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(15f);
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
 		ge.registerFont(titleFont);
@@ -40,7 +41,8 @@ public class TitlePage extends JFrame implements ActionListener{
 		Image image2 = image.getScaledInstance(720, 450, java.awt.Image.SCALE_SMOOTH);
 		img = new ImageIcon(image2);
 		background = new JLabel(img);
-		lblTitle = new JLabel("ARCADE");
+		lblTitle = new JLabel("ARCADE GAME");
+		names = new JLabel("Kelvin X. & Laiba Y.");
 		lblTitle.setForeground(Color.white);
 		login = new JButton("LOGIN");
 		exit = new JButton("EXIT");
@@ -54,12 +56,16 @@ public class TitlePage extends JFrame implements ActionListener{
 		background.setSize(720,470);
 		lblTitle.setFont(titleFont);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setBounds(50, 50, 620, 50);
+		lblTitle.setBounds(50, 100, 620, 50);
+		names.setBounds(400,50,700,25);
+		names.setFont(textFont);
+		names.setForeground(Color.WHITE);
 		login.setBounds(30,325,320,50);
 		exit.setBounds(370,325,320,50);
 
 		//add components to JFrame & display
 		background.add(lblTitle);
+		background.add(names);
 		background.add(login);
 		background.add(exit);
 		titlePageF.add(background);
