@@ -18,6 +18,7 @@ import javax.swing.*;
 
 public class FlappyBirdGame extends Canvas implements Runnable, KeyListener{
 	
+	//declare variables
 	public static final int WIDTH = 640, HEIGHT = 480;
 	private boolean running = false;
 	private Thread thread;
@@ -27,6 +28,7 @@ public class FlappyBirdGame extends Canvas implements Runnable, KeyListener{
 	public static Room room; 
 	public Bird bird;
 	
+	//constructor for flappy bird game, room , the bird
 	public FlappyBirdGame() {
 		Dimension d = new Dimension(FlappyBirdGame.WIDTH,FlappyBirdGame.HEIGHT);
 		setPreferredSize(d);
@@ -36,14 +38,14 @@ public class FlappyBirdGame extends Canvas implements Runnable, KeyListener{
 	}
 	
 	
-	public void start() {
+	public synchronized void start() {
 		if(running) return;
 		running = true;
 		thread = new Thread(this);
 		thread.start();
 	}
 	
-	public void stop() {
+	public synchronized void stop() {
 		if(!running) return;
 		running = false;
 		try {
