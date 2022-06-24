@@ -133,7 +133,7 @@ class Map extends JPanel implements ActionListener{
 		arr = new Obstacle[10];
 		picCnt = new int[10];
 		Obstacle.setCreateNew(true);
-		Obstacle.setDx(50);
+		Obstacle.setDx(25);
 		score = 0;
 		tickCnt = 0;
 		player = new Player(100,530);
@@ -147,7 +147,7 @@ class Map extends JPanel implements ActionListener{
 
 		timer = new Timer(50, (ActionListener) this);
 		timer.start();
-		obsTimer = new Timer(2000, (ActionListener) this);
+		obsTimer = new Timer(1000, (ActionListener) this);
 		obsTimer.start();
 		player.setStart(true);
 		player.setRunning(true);
@@ -169,7 +169,7 @@ class Map extends JPanel implements ActionListener{
 				}
 			}
 			if(tickCnt>500) {
-				Obstacle.setDx(75);
+				Obstacle.setDx(50);
 			}
 			tickCnt++;
 			if(tickCnt%5==0 && !player.getDead()) {

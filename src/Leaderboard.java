@@ -8,6 +8,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 	private JLabel            backgroundP;
 	private JButton           back;
 	private JButton           play;
+	private JButton           erase;
 	private JLabel            lblTitle;
 	private JLabel            lblFlappyBird;
 	private JTable            leaderboardFlappyBird;
@@ -94,6 +95,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 		backgroundP = new JLabel(new ImageIcon("images/statsBackground.jpg"));
 		back = new JButton("BACK");
 		play = new JButton("PLAY");
+		erase = new JButton("ERASE SCORES");
 		lblTitle = new JLabel("LEADERBOARDS");
 		lblFlappyBird = new JLabel("FLAPPY BIRD", SwingConstants.CENTER);
 		lblAsteroids = new JLabel("SPACE SHOOTERS", SwingConstants.CENTER);
@@ -122,12 +124,13 @@ public class Leaderboard extends JFrame implements ActionListener{
 		flappyBirdPane.setBounds(45,150,165,185);
 		asteroidsPane.setBounds(255,150, 165,185);
 		runnerPane.setBounds(465,150,165,185);
-		back.setBounds(30,360,320,50);
-		play.setBounds(370,360,320,50);
+		back.setBounds(30,380,320,50);
+		play.setBounds(370,380,320,50);
+		erase.setBounds(260, 340, 200, 25);
 
 		createButton(play);
 		createButton(back);
-
+		createMiniButton(erase);
 		backgroundP.add(lblTitle);
 		backgroundP.add(lblFlappyBird);
 		backgroundP.add(lblAsteroids);
@@ -137,6 +140,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 		backgroundP.add(runnerPane);
 		backgroundP.add(play);
 		backgroundP.add(back);
+		backgroundP.add(erase);
 		leaderboardF.add(backgroundP);
 
 		leaderboardF.setLocationRelativeTo(null);
@@ -147,6 +151,14 @@ public class Leaderboard extends JFrame implements ActionListener{
 	public void createButton(JButton b) throws Exception{
 		//import fonts
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(16f);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
+		b.addActionListener(this);
+		b.setFont(font);
+	}
+	public void createMiniButton(JButton b) throws Exception{
+		//import fonts
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(12f);
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		ge.registerFont(font);
 		b.addActionListener(this);
@@ -179,6 +191,11 @@ public class Leaderboard extends JFrame implements ActionListener{
 			else if(e.getSource()==play) {
 				leaderboardF.dispose();
 				new GameOption("PLAY");
+			}
+			else if(e.getSource()==erase) {
+				Login.eraseScores();
+				leaderboardF.dispose();
+				new Leaderboard("LEADERBOARD");
 			}
 
 		}catch(Exception e1) {

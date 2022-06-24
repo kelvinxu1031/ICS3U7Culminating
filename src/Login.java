@@ -153,6 +153,15 @@ public class Login extends JFrame implements ActionListener{
 		Login.saveUsers();
 	}
 	
+	public static void eraseScores() throws Exception {
+		for(int i = 0; i<numOfUsers;i++) {
+			accounts[2][i] = "0";
+			accounts[3][i] = "0";
+			accounts[4][i] = "0";
+			saveUsers();
+		}
+	}
+	
 	/**
 	 * This method updates the accounts.txt file 
 	 * @throws Exception

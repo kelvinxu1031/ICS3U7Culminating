@@ -133,7 +133,7 @@ public class FlappyBird extends JFrame{
 		private TopObstacle[] topArr;
 		private BotObstacle[] botArr;
 		public boolean collide;
-		private int cnt, formCnt;
+		private int cnt, formCnt, botCnt;
 		private static boolean paused, started;
 		private JLabel lblPause = new JLabel("PAUSED");
 		private JLabel lblStart = new JLabel("PRESS SPACE TO START");
@@ -142,8 +142,8 @@ public class FlappyBird extends JFrame{
 		public Map() throws Exception {
 			topArr = new TopObstacle[10];
 			botArr = new BotObstacle[10];
-			TopObstacle.setDx(25);
-			BotObstacle.setDx(25);
+			TopObstacle.setDx(10);
+			BotObstacle.setDx(10);
 			score = 0;
 			tickCnt = 0;
 			player = new Player(50,300);
@@ -156,12 +156,12 @@ public class FlappyBird extends JFrame{
 
 			timer = new Timer(50, (ActionListener) this);
 			timer.start();
-			obsTimer = new Timer(2000, (ActionListener) this);
+			obsTimer = new Timer(1500, (ActionListener) this);
 			obsTimer.start();
 
 			cnt = 0;
 			formCnt = 0;
-
+			botCnt = 0;
 
 			paused = false;
 			started = false;
@@ -172,9 +172,12 @@ public class FlappyBird extends JFrame{
 			if(!paused && started) {
 				if(e.getSource() == obsTimer) {
 					rand = TopObstacle.genY();
-					TopObstacle obstacle = new TopObstacle(2000, rand);
+					TopObstacle obstacle = new TopObstacle(2000-botCnt, rand);
 					topArr[cnt%10] = obstacle;
-					BotObstacle obstacle2 = new BotObstacle(2000, rand+600);
+					BotObstacle obstacle2 = new BotObstacle(2000-botCnt, rand+600-botCnt);
+					if(botCnt<50) {
+						botCnt+=5;
+					}
 					botArr[cnt%10] = obstacle2;
 					cnt++;
 					if (cnt<10) {
