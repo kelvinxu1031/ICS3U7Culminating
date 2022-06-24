@@ -9,7 +9,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
-	
+	//GUI Components
 	private JFrame f;
 	private JLabel backgroundP;
 	private JLabel lblTitle;
@@ -18,18 +18,26 @@ public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
 	private JButton back;
 	private JButton play;
 
+	//input file
 	private String file = "runnerHowToPlay.txt";
 
+	//font file names
 	String titleFontName = "fonts/titleFont.ttf";
 	String textFontName  = "fonts/textFont.ttf";
 
+	/**
+	 * Constructor for DinosaurGameHowToPlay class
+	 * @param title title of the page
+	 */
 	public DinosaurGameHowToPlay(String title) throws Exception{
+		//initialize fonts
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(28f);
 		ge.registerFont(titleFont);
 
+		//instantiate components
 		f = new JFrame(title);
 		backgroundP = new JLabel(new ImageIcon("images/dinosaurBackground.jpg"));
 		lblTitle = new JLabel("DINOSAUR GAME");
@@ -37,13 +45,14 @@ public class DinosaurGameHowToPlay extends JFrame implements ActionListener{
 		back = new JButton("BACK");
 		play = new JButton("PLAY");
 
+		//read input from file
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		line = in.readLine();
 		while (line!=null) {
 			text.append(line + "\n");
 			line = in.readLine();
 		}
-
+		//formatting for components
 		createButton(play);
 		createButton(back);
 		f.setLayout(null);

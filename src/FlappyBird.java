@@ -4,12 +4,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-
+/**
+ * This program contains the flappy bird game
+ * @author Kelvin and Laiba
+ *
+ */
 public class FlappyBird extends JFrame{
 	private static JFrame f;
 	private Map map;
 	/**
-	 * Constructor for Space Shooters JFrame
+	 * Constructor for Flappy Bird JFrame
 	 */
 	public FlappyBird() throws Exception {
 		f = new JFrame();
@@ -28,10 +32,16 @@ public class FlappyBird extends JFrame{
 	}
 
 
+
 	class Player{
 		private int x, y, dy;
 		private boolean dead;
 		private Image img;
+		/**
+		 * Constructor for creating a new player
+		 * @param x starting x-coordinate
+		 * @param y starting y-coordinate
+		 */
 		public Player(int x, int y) {
 			this.x = x;
 			this.y = y;
@@ -39,6 +49,7 @@ public class FlappyBird extends JFrame{
 			dead = false;
 		}
 
+		//getter and setter methods
 		public boolean getDead() {
 			return dead;
 		}
@@ -57,26 +68,42 @@ public class FlappyBird extends JFrame{
 		public int getX() {
 			return x;
 		}
+		/**
+		 * Method to update position of player
+		 */
 		public void move() {
 			y-=dy;
 			dy-=3;
 		}
+		/**
+		 * Method to draw player onto the screen
+		 */
 		public void drawPlayer(Graphics g) {
 			img = Images.getFlappy();
 			g.drawImage(img, x, y, null);
 		}
 
 	}
+
 	class TopObstacle{
 		private int x, y;
 		private static int dx;
+		/**
+		 * Constructor for TopObstacle
+		 * @param x starting x-coordinate
+		 * @param y starting y-coordinate
+		 */
 		public TopObstacle(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
+		/**
+		 * Method to update location of top obstacle
+		 */
 		public void move() {
 			x-=dx;
 		}
+		//getter and setter methods
 		public static void setDx(int x) {
 			dx = x;
 		}
@@ -90,23 +117,40 @@ public class FlappyBird extends JFrame{
 			return y;
 		}
 
+		/**
+		 * Method to draw obstacles
+		 */
 		public void drawObstacle(Graphics g) {
 			g.drawImage(Images.getTop(), x, y, null);
 		}
+		/**
+		 * Method to generate a random y-coordinate
+		 * @return int between 0 and -300
+		 */
 		public static int genY() {
 			return (int)(Math.random()*-301);
 		}
 	}
+
 	class BotObstacle{
 		private int x, y;
 		private static int dx;
+		/**
+		 * Constructor for BotObstacle
+		 * @param x starting x-coordinate
+		 * @param y starting y-coordinate
+		 */
 		public BotObstacle(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
+		/**
+		 * Method to update location of obstacle
+		 */
 		public void move() {
 			x-=dx;
 		}
+		//getter and setter methods
 		public static void setDx(int x) {
 			dx = x;
 		}
@@ -120,10 +164,14 @@ public class FlappyBird extends JFrame{
 			return y;
 		}
 
+		/**
+		 * Method to draw obstacles
+		 */
 		public void drawObstacle(Graphics g) {
 			g.drawImage(Images.getBot(), x, y, null);
 		}
 	}
+	
 	class Map extends JPanel implements ActionListener{
 		private static int score, rand;
 		private int tickCnt;
@@ -138,27 +186,36 @@ public class FlappyBird extends JFrame{
 		private JLabel lblPause = new JLabel("PAUSED");
 		private JLabel lblStart = new JLabel("PRESS SPACE TO START");
 		private JLabel lblScore = new JLabel("SCORE: 0");
-
+/**
+ * Constructor for Map class
+ */
 		public Map() throws Exception {
+			//initialize arrays
 			topArr = new TopObstacle[10];
 			botArr = new BotObstacle[10];
+			//set conditions for the obstacles
 			TopObstacle.setDx(10);
 			BotObstacle.setDx(10);
-			score = 0;
-			tickCnt = 0;
+			
+			//instantiate player
 			player = new Player(50,300);
+			//load images
 			Images.loadImages();
 
-			addKeyListener(new MyRunnerKeyListener());
+			addKeyListener(new MyKeyListener());
 			setFocusable(true);
 			lblScore.setBounds(0, 0, 100, 25);
 			this.add(lblScore);
 
+			//start timers
 			timer = new Timer(50, (ActionListener) this);
 			timer.start();
 			obsTimer = new Timer(1500, (ActionListener) this);
 			obsTimer.start();
 
+			//set counts to 0
+			score = 0;
+			tickCnt = 0;
 			cnt = 0;
 			formCnt = 0;
 			botCnt = 0;
@@ -168,6 +225,9 @@ public class FlappyBird extends JFrame{
 
 		}
 
+		/**
+		 * Method for detecting user input actions as well as timer ticks
+		 */
 		public void actionPerformed(ActionEvent e) {
 			if(!paused && started) {
 				if(e.getSource() == obsTimer) {
@@ -202,12 +262,16 @@ public class FlappyBird extends JFrame{
 			repaint();
 		}
 
+		/**
+		 * Method to detect collision between player and obstacles
+		 * @throws Exception
+		 */
 		public void detectCollision() throws Exception {
 			for (int i = 0; i<formCnt;i++) {
 				collide = ((new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(topArr[i].getX(), topArr[i].getY(),69, 400))|| (new Rectangle(player.getX(), player.getY(), 35, 33).intersects(new Rectangle(botArr[i].getX(), botArr[i].getY(),69, 400))) || player.getY()<0 || player.getY()>650));
 				if (collide) {
 					player.setDead(true);
-					if (score>Integer.parseInt(Login.getRunner())) {
+					if (score>Integer.parseInt(Login.getRunner())) {//update score
 						Login.init();
 						Login.setFlappyBird(String.valueOf(score));
 						Login.saveUsers();
@@ -217,7 +281,7 @@ public class FlappyBird extends JFrame{
 			}
 
 		}
-		class MyRunnerKeyListener extends KeyAdapter{//class to determine key events
+		class MyKeyListener extends KeyAdapter{//class to determine key events
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyChar()=='p') {
 					if(Map.getPaused()==true) {
@@ -292,6 +356,7 @@ public class FlappyBird extends JFrame{
 				System.out.println(e1.getLocalizedMessage());
 			}
 		}
+		//getter and setter methods
 		public static void setPaused(boolean b)
 		{
 			paused = b;

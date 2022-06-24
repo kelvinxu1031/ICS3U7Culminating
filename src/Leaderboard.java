@@ -2,7 +2,12 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+/**
+ * This program displays 3 leaderboards to the user
+ * One for each game
+ * @author Kelvin Xu
+ *
+ */
 public class Leaderboard extends JFrame implements ActionListener{
 	private static JFrame     leaderboardF;
 	private JLabel            backgroundP;
@@ -63,6 +68,7 @@ public class Leaderboard extends JFrame implements ActionListener{
 		sort(flappyBirdScores);
 		sort(asteroidsScores);
 		sort(runnerScores);
+		//determine the top 10 users and put them into an array
 		for(int i = 0; i<10;i++) {
 			if(flappyBirdScores[i][0]==null) {
 				sortedFlappyBirdScores[i][0] = "";
@@ -165,6 +171,10 @@ public class Leaderboard extends JFrame implements ActionListener{
 		b.setFont(font);
 	}
 
+	/**
+	 * This method sorts the 2D arrays in descending order
+	 * @param arr an array
+	 */
 	public void sort(String[][] arr){
 		int i, j;
 		String temp1, temp2;

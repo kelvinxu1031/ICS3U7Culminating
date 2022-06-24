@@ -8,6 +8,7 @@ public class Stats extends JFrame implements ActionListener{
 	private JLabel            backgroundP;
 	private JButton           back;
 	private JButton           play;
+	private JButton           erase;
 	private JLabel            lblStats;
 	private JLabel            lblUser;
 	private JLabel            lblFlappyBird;
@@ -29,6 +30,7 @@ public class Stats extends JFrame implements ActionListener{
 		backgroundP = new JLabel(new ImageIcon("images/statsBackground.jpg"));
 		back = new JButton("BACK");
 		play = new JButton("PLAY NOW!");
+		erase = new JButton("ERASE SCORES");
 		lblStats = new JLabel("PERSONAL STATS");
 		lblUser = new JLabel("USER: " + Login.getUser());
 		lblFlappyBird = new JLabel("Flappy Bird: " + Login.getFlappyBird());
@@ -40,6 +42,7 @@ public class Stats extends JFrame implements ActionListener{
 		backgroundP.setSize(720,470);
 		back.setBounds(30,375,320,50);
 		play.setBounds(370,375,320,50);
+		erase.setBounds(260, 340, 200, 25);
 		lblStats.setForeground(Color.WHITE);
 		lblStats.setFont(titleFont);
 		lblStats.setHorizontalAlignment(SwingConstants.CENTER);
@@ -61,7 +64,8 @@ public class Stats extends JFrame implements ActionListener{
 
 		createButton(play);
 		createButton(back);
-
+		createMiniButton(erase);
+		
 		backgroundP.add(lblStats);
 		backgroundP.add(lblUser);
 		backgroundP.add(lblFlappyBird);
@@ -69,6 +73,7 @@ public class Stats extends JFrame implements ActionListener{
 		backgroundP.add(lblRunner);
 		backgroundP.add(back);
 		backgroundP.add(play);
+		backgroundP.add(erase);
 		statsF.add(backgroundP);
 
 		statsF.setSize(720,470);
@@ -85,6 +90,14 @@ public class Stats extends JFrame implements ActionListener{
 		b.addActionListener(this);
 		b.setFont(font);
 	}
+	public void createMiniButton(JButton b) throws Exception{
+		//import fonts
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(12f);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
+		b.addActionListener(this);
+		b.setFont(font);
+	}
 
 	public void actionPerformed(ActionEvent e){
 		try {
@@ -92,9 +105,14 @@ public class Stats extends JFrame implements ActionListener{
 				statsF.dispose();
 				new GameOption("PLAY");
 			}
-			if(e.getSource() == back){
+			else if(e.getSource() == back){
 				statsF.dispose();
 				new MainMenu("ARCADE");
+			}
+			else if(e.getSource()==erase) {
+				Login.eraseScores();
+				statsF.dispose();
+				new Stats("STATS");
 			}
 		}
 		catch (Exception e1) {

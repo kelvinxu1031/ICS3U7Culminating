@@ -3,6 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+/**
+ * This program contains the main menu of the game
+ * @author Kelvin Xu
+ *
+ */
 public class MainMenu extends JFrame implements ActionListener{
 	private static JFrame mainMenuF;
 	private JLabel  backgroundP;
@@ -23,6 +28,7 @@ public class MainMenu extends JFrame implements ActionListener{
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(50f);
 		ge.registerFont(titleFont);
+		
 		mainMenuF = new JFrame(title);
 		backgroundP = new JLabel(new ImageIcon("images/mainMenuBackground.jpg"));
 		lblTitle = new JLabel("ARCADE");

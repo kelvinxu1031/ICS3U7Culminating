@@ -2,7 +2,11 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
-
+/**
+ * This program displays a game over screen for when the user loses in a game
+ * @author Kelvin Xu
+ *
+ */
 public class GameOver extends JFrame implements ActionListener{
 	private JFrame f;
 	private JLabel backgroundP;

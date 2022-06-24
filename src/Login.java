@@ -119,6 +119,10 @@ public class Login extends JFrame implements ActionListener{
 		in.close();
 	}
 
+	/**
+	 * This method initializes arrays
+	 * allowing for future use
+	 */
 	public static void init() throws Exception {
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		usernames = in.readLine().split(" ");
@@ -153,11 +157,17 @@ public class Login extends JFrame implements ActionListener{
 		Login.saveUsers();
 	}
 	
+	/**
+	 * This method erases all the scores in the game
+	 */
 	public static void eraseScores() throws Exception {
 		for(int i = 0; i<numOfUsers;i++) {
 			accounts[2][i] = "0";
 			accounts[3][i] = "0";
 			accounts[4][i] = "0";
+			Login.setAsteroids("0");
+			Login.setFlappyBird("0");
+			Login.setRunner("0");
 			saveUsers();
 		}
 	}
@@ -239,6 +249,7 @@ public class Login extends JFrame implements ActionListener{
 		return false;
 	}
 
+	//getter and setter methods
 	public static int getI() {
 		return currI;
 	}
@@ -283,7 +294,18 @@ public class Login extends JFrame implements ActionListener{
 		currRunnerScore = score;
 		accounts[4][Login.getI()] = score;
 	}
+	public static String[][] getAccounts(){
+		return accounts;
+	}
+	public static int getUsers() {
+		return numOfUsers;
+	}
 	
+	/**
+	 * This method finds the index of the user in the text file
+	 * @param user username
+	 * @return the index of the username
+	 */
 	public int findIndex(String user) {
 		for (int i = 0; i<numOfUsers;i++) {
 			if(user.equals(accounts[0][i])) {
@@ -293,12 +315,7 @@ public class Login extends JFrame implements ActionListener{
 		return 0;
 	}
 	
-	public static String[][] getAccounts(){
-		return accounts;
-	}
-	public static int getUsers() {
-		return numOfUsers;
-	}
+	
 	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e){
 		try {

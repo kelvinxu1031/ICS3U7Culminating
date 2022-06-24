@@ -2,7 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-
+/**
+ * This program allows the user to reset their password
+ * @author Kelvin Xu
+ *
+ */
 public class ResetPass extends JFrame implements ActionListener{
 
 	private static String file = "accounts.txt";

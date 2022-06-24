@@ -2,7 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
+/**
+ * This program displays the 3 game options to the user for them to play
+ * @author Kelvin Xu
+ *
+ */
 public class GameOption extends JFrame implements ActionListener{
 	private static JFrame gameOptionF;
 	private JLabel  backgroundP;
@@ -17,12 +21,14 @@ public class GameOption extends JFrame implements ActionListener{
 
 	public GameOption(String title) throws Exception{
 
+		//fonts
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File(textFontName)).deriveFont(12f);
 		ge.registerFont(textFont);
 		Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File(titleFontName)).deriveFont(28f);
 		ge.registerFont(titleFont);
 
+		//instantiate components
 		gameOptionF = new JFrame(title);
 		backgroundP = new JLabel(new ImageIcon("images/gameOptionBackground.jpg"));
 		lblTitle = new JLabel("WELCOME TO THE ARCADE!!");
@@ -31,6 +37,7 @@ public class GameOption extends JFrame implements ActionListener{
 		runner = new JButton("DINOSAUR GAME");
 		back = new JButton("BACK");
 
+		//formatting
 		gameOptionF.setLayout(null);
 		backgroundP.setLayout(null);
 		backgroundP.setSize(720,470);
@@ -42,6 +49,7 @@ public class GameOption extends JFrame implements ActionListener{
 		runner.setBounds(375,270,315,60);
 		back.setBounds(210,360,315,60);
 
+		//add functionality to buttons
 		createButton(flappyBird);
 		createButton(asteroid);
 		createButton(runner);
