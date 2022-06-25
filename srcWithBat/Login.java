@@ -293,7 +293,7 @@ public class Login extends JFrame implements ActionListener{
 	}
 	public static void setRunner(String score) {
 		currRunnerScore = score;
-		accounts[4][currI] = score;
+		accounts[4][Login.getI()] = score;
 	}
 	public static String[][] getAccounts(){
 		return accounts;
